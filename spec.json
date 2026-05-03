@@ -100,18 +100,18 @@
     },
     {
       "id": "6",
-      "goal": "Multi-step quiz UI at /quiz/[step]: 5 sections (basics, diet, sleep, stress, lifestyle), URL-routed steps, Zod-validated forms, progress bar, server action persists answers to a draft quiz row on submit.",
+      "goal": "Multi-step quiz UI at /quiz/[step]: 5 sections (basics, diet, sleep, stress, lifestyle), URL-routed steps, Zod-validated forms (per-step + merged), progress bar, draft persisted in localStorage across refresh, final-step server action creates a quizzes row.",
       "depends_on": ["3"],
       "verification": {
         "type": "browser",
         "command": "npm run test:e2e -- quiz",
         "tests_to_write": [
-          "Playwright walks all 5 steps end-to-end",
-          "Refresh on step 3 keeps answers from steps 1-2",
-          "Final submit creates a quizzes row visible in Supabase"
+          "e2e: anonymous /quiz/1 redirects to /login",
+          "e2e: refresh on step 3 + back-nav preserves steps 1-2 answers",
+          "e2e: complete all 5 steps + final submit creates a quizzes row in Supabase"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "7",

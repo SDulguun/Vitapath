@@ -33,11 +33,12 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect /history
-  if (!user && request.nextUrl.pathname.startsWith("/history")) {
+  // Protect /history and /quiz
+  const path = request.nextUrl.pathname;
+  if (!user && (path.startsWith("/history") || path.startsWith("/quiz"))) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    url.searchParams.set("next", request.nextUrl.pathname);
+    url.searchParams.set("next", path);
     return NextResponse.redirect(url);
   }
 
