@@ -128,18 +128,21 @@
     },
     {
       "id": "8",
-      "goal": "Health score function in lib/engine/score.ts returns { score: 0-100, contributions: [{ rule_id, delta, label }] } where contributions sum to score - baseline.",
+      "goal": "Explainable health score in lib/engine/score.ts: pure function returning { baseline, raw_score, score (clamped 0-100), contributions[] }. Each contribution = { rule_id, label, delta }; sum(contributions.delta) === raw_score - baseline by construction.",
       "depends_on": ["7"],
       "verification": {
         "type": "test",
         "command": "npm test -- engine/score",
         "tests_to_write": [
-          "Deterministic for fixed input",
-          "sum(contributions.delta) === score - baseline for 5 sampled inputs",
-          "Contributions are stable-sorted by absolute delta descending"
+          "Neutral inputs → score === baseline, no contributions",
+          "Sum invariant holds for 5 sampled inputs",
+          "Contributions sorted by |delta| desc, stable on ties via rule_id",
+          "Score clamps to [0, 100]; raw_score may exceed",
+          "Deterministic across calls",
+          "All 16 rule ids unique; every emitted contribution has non-zero delta"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "9",
