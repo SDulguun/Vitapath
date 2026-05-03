@@ -115,17 +115,16 @@
     },
     {
       "id": "7",
-      "goal": "Pure recommendation engine in lib/engine/rules.ts: takes typed quiz answers, returns Recommendation[] with rule_id, supplement_slug, dose, and rationale; uses nutrition-domain JSON as the source of truth.",
+      "goal": "Pure recommendation engine in lib/engine/rules.ts: takes typed QuizAnswers, returns deduped Recommendation[] (supplement_slug, name, dose, merged rule_ids, rationale[], pregnancy_safe). Sources of truth are the validated nutrition-domain refs + supplements.json. Pregnancy gates the universe (only pregnancy_safe items shown).",
       "depends_on": ["4"],
       "verification": {
         "type": "test",
         "command": "npm test -- engine/rules",
         "tests_to_write": [
-          ">=10 unit tests covering: low-sun-exposure -> vitamin D; vegan -> B12; high-stress -> magnesium; low-sleep -> magnesium glycinate; female 19-50 -> iron consideration; pregnancy -> folate; etc.",
-          "Engine is pure (same input -> same output, no I/O)"
+          "16 unit tests: low-sun → vitamin D, vegan → B12, high-stress → Mg, poor-sleep → Mg, low-fish → omega-3, premenopausal-female → iron, pregnancy → folate + omega-3 + iron, healthy male → no recs, postmenopausal-female → no female-iron, dedupe (one Mg rec for stress+sleep), pregnancy gating invariant, sorted output, purity, dose presence, ≥10 unique rule ids"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "8",

@@ -50,9 +50,32 @@ export const ContraindicationSchema = z.object({
 
 export const ContraindicationsSchema = z.array(ContraindicationSchema);
 
+// ─── supplements.json (single source of truth for the engine + MCP server) ─
+
+export const StudySchema = z.object({
+  title: z.string().min(1),
+  year: z.number().int().gte(1900).lte(2100),
+  doi: z.string().optional(),
+  summary: z.string().min(1),
+  concerns: z.array(z.string().min(1)).min(1),
+});
+
+export const SupplementSchema = z.object({
+  slug: z.string().min(1),
+  name: z.string().min(1),
+  forms: z.array(z.string().min(1)).min(1),
+  typical_dose: z.string().min(1),
+  pregnancy_safe: z.boolean(),
+  studies: z.array(StudySchema).min(1),
+});
+
+export const SupplementsSchema = z.array(SupplementSchema).min(1);
+
 // ─── Inferred TS types (for downstream engine code) ───────────────────────
 
 export type Sex = z.infer<typeof SexSchema>;
+export type Study = z.infer<typeof StudySchema>;
+export type Supplement = z.infer<typeof SupplementSchema>;
 export type Severity = z.infer<typeof SeveritySchema>;
 export type ContraindicationAction = z.infer<typeof ContraindicationActionSchema>;
 export type RdaUl = z.infer<typeof RdaUlSchema>;

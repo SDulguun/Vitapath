@@ -28,6 +28,12 @@
         "doi": "10.1056/NEJMoa1811403",
         "summary": "Marine omega-3s associated with modest reduction in major cardiovascular events.",
         "concerns": ["heart", "brain"]
+      },
+      {
+        "title": "DHA supplementation in pregnancy and infant neurodevelopment",
+        "year": 2017,
+        "summary": "DHA during pregnancy is associated with improved infant neurodevelopmental outcomes.",
+        "concerns": ["pregnancy", "brain"]
       }
     ]
   },
@@ -58,6 +64,43 @@
         "year": 2017,
         "summary": "Vegans without supplementation show high prevalence of B12 deficiency; supplementation normalizes serum B12.",
         "concerns": ["energy", "vegan", "brain"]
+      }
+    ]
+  },
+  {
+    "slug": "iron",
+    "name": "Iron (bisglycinate)",
+    "forms": ["capsule", "tablet"],
+    "typical_dose": "18 mg elemental iron/day (27 mg if pregnant)",
+    "pregnancy_safe": true,
+    "studies": [
+      {
+        "title": "Iron supplementation in menstruating women with marginal stores",
+        "year": 2019,
+        "summary": "Daily 18 mg iron improves serum ferritin and reduces fatigue scores in iron-marginal premenopausal women.",
+        "concerns": ["energy", "iron", "female"]
+      },
+      {
+        "title": "Iron requirements during pregnancy",
+        "year": 2020,
+        "summary": "Pregnant individuals require ~27 mg/day; supplementation reduces incidence of iron-deficiency anemia.",
+        "concerns": ["pregnancy", "iron"]
+      }
+    ]
+  },
+  {
+    "slug": "folate",
+    "name": "Folate (5-MTHF)",
+    "forms": ["capsule"],
+    "typical_dose": "400-800 mcg DFE/day (preconception and pregnancy)",
+    "pregnancy_safe": true,
+    "studies": [
+      {
+        "title": "Periconceptional folic acid and neural tube defect risk",
+        "year": 1991,
+        "doi": "10.1016/0140-6736(91)90133-A",
+        "summary": "Folic acid supplementation around conception reduces neural tube defect risk by ~70%.",
+        "concerns": ["pregnancy", "preconception"]
       }
     ]
   }
