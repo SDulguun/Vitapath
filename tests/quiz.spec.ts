@@ -100,10 +100,10 @@ test.describe.serial("multi-step quiz", () => {
     // (none is already pre-checked from default)
     await page.getByTestId("quiz-next").click();
 
-    // After final submit, we navigate to /history
-    await expect(page).toHaveURL(/\/history/, { timeout: 15_000 });
+    // After final submit, we navigate to /results
+    await expect(page).toHaveURL(/\/results/, { timeout: 15_000 });
 
-    // Verify a quizzes row was created for this user
+    // Verify a quizzes row was created for this user with a computed score
     const { data: rows, error: rowsErr } = await admin
       .from("quizzes")
       .select("id, answers, health_score, user_id")
@@ -111,7 +111,9 @@ test.describe.serial("multi-step quiz", () => {
     expect(rowsErr, "row fetch should succeed").toBeFalsy();
     expect(rows?.length, "exactly one row created").toBe(1);
     const row = rows![0];
-    expect(row.health_score).toBeNull(); // engine fills this in goal 8
+    expect(typeof row.health_score, "score populated by goal 8").toBe("number");
+    expect(row.health_score).toBeGreaterThanOrEqual(0);
+    expect(row.health_score).toBeLessThanOrEqual(100);
     expect(row.answers).toMatchObject({
       age_band: "19-30",
       sex_at_birth: "female",

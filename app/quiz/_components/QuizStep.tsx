@@ -117,7 +117,7 @@ export function QuizStep({ step }: { step: number }) {
         return;
       }
       clearDraft();
-      router.push(`/history`);
+      router.push(`/results`);
     });
   }
 

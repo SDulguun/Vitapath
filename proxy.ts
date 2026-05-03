@@ -33,9 +33,14 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect /history and /quiz
+  // Protect /history, /quiz, and /results
   const path = request.nextUrl.pathname;
-  if (!user && (path.startsWith("/history") || path.startsWith("/quiz"))) {
+  if (
+    !user &&
+    (path.startsWith("/history") ||
+      path.startsWith("/quiz") ||
+      path.startsWith("/results"))
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("next", path);
