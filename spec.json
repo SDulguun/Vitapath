@@ -50,18 +50,22 @@
     },
     {
       "id": "3",
-      "goal": "Magic-link auth flow: sign-in form, callback handler, sign-out action; authed-only /history route redirects unauthenticated users to /login.",
+      "goal": "Magic-link auth flow: sign-in form, callback handler (PKCE code + token_hash verifyOtp), sign-out route; /history protected by proxy.ts and redirects unauthenticated users to /login.",
       "depends_on": ["2"],
       "verification": {
         "type": "browser",
         "command": "npm run test:e2e -- auth",
-        "tests_to_write": ["e2e: full magic-link round-trip from /login to authed page"],
+        "tests_to_write": [
+          "e2e: anonymous /history redirects to /login",
+          "e2e: login page renders the magic-link form",
+          "e2e: admin-minted magic link signs user in, /history shows email, sign-out re-protects /history"
+        ],
         "checklist": [
           "Anonymous visit to /history redirects to /login",
-          "Sign-out clears the Supabase session cookie"
+          "Sign-out clears the Supabase session cookie (verified by post-signout redirect back to /login)"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "4",
