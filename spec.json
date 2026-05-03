@@ -27,11 +27,11 @@
         "command": "npm run build",
         "checklist": [
           "git log shows initial 'chore: vitapath scaffold + spec.json' commit",
-          "https://<vercel-url>/ returns 200 and renders the VitaPath landing copy",
+          "https://vitamin-chi.vercel.app/ returns 200 and renders the VitaPath landing copy",
           "spec.json present at repo root and parses as valid JSON"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "2",
