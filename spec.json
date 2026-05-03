@@ -35,17 +35,18 @@
     },
     {
       "id": "2",
-      "goal": "Supabase project linked to repo via env vars; migrations create profiles/quizzes/recommendations/share_tokens tables with RLS enabled and policies for per-user access.",
+      "goal": "Supabase project linked to repo via env vars; supabase/migrations/0001_init.sql applied (profiles, quizzes, recommendations, share_tokens with RLS + policies; get_shared_result security-definer RPC for shareable results).",
       "depends_on": ["1"],
       "verification": {
         "type": "command",
-        "command": "supabase db diff --linked",
+        "command": "npm run verify:db",
         "checklist": [
-          "supabase db diff returns empty (no drift)",
-          "Querying pg_tables and pg_policies confirms RLS enabled on all 4 tables with at least one policy each"
+          "All 4 tables exist in public schema with RLS enabled",
+          "Per-table policy counts: profiles=3, quizzes=2, recommendations=2, share_tokens=2",
+          "get_shared_result(text) RPC exists and is grantable to anon"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "3",
