@@ -79,7 +79,7 @@
           "Skill loads without errors when listed by Claude Code"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "5",
