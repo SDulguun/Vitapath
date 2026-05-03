@@ -87,14 +87,16 @@
       "depends_on": [],
       "verification": {
         "type": "command",
-        "command": "npm --prefix .claude/mcp/supplement-evidence run inspect",
+        "command": "npm --prefix .claude/mcp/supplement-evidence run verify",
         "checklist": [
-          "MCP Inspector shows the 3 tools",
+          "All 3 tools (get_supplement, list_studies, search_evidence) advertised",
           "get_supplement('vitamin_d') returns the seeded record",
-          "list_studies('omega_3') returns at least 1 study"
+          "list_studies('omega_3') returns ≥1 study",
+          "search_evidence(magnesium_glycinate, 'sleep') returns ≥1 study",
+          "(manual) `npm run inspect` from .claude/mcp/supplement-evidence/ opens the official Inspector UI showing the same"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "6",
