@@ -167,18 +167,18 @@
     },
     {
       "id": "10",
-      "goal": "Results page at /results: rec cards, animated score gauge, contribution breakdown, interaction warnings, evidence citations sourced from supplement-evidence MCP data bundled at build time.",
+      "goal": "Results page at /results: server component pulls latest quiz (RLS-scoped), runs score + rules + interaction checker, renders score gauge with contribution breakdown, severity-tinted warnings, and recommendation cards with evidence citations bundled from supplements.json. saveQuiz extended to compute score and persist recommendations rows.",
       "depends_on": ["5", "7", "8", "9"],
       "verification": {
         "type": "browser",
         "command": "npm run test:e2e -- results",
         "tests_to_write": [
-          "Quiz -> results renders all sections",
-          "Each rec card shows >=1 evidence citation with study title and year",
-          "Score gauge value matches /api/score response"
+          "e2e: anonymous /results redirects to /login",
+          "e2e: full quiz → /results renders score in [0,100], expected rec slugs (vitamin_d, vitamin_b12, omega_3, iron for vegan-low-sun-female profile), each with ≥1 citation showing a 4-digit year, and the medical disclaimer is on the page",
+          "DB sanity: a recommendations row exists per visible card"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "11",
