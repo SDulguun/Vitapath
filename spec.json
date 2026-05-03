@@ -146,21 +146,24 @@
     },
     {
       "id": "9",
-      "goal": "Interaction checker in lib/engine/interactions.ts: given recommendations + user-disclosed medications/conditions, returns Warning[] with severity and explanation; pregnancy contraindications remove offending recs and add a warning.",
+      "goal": "Safety / interaction checker in lib/engine/interactions.ts: pure (answers, recs) → { recommendations, warnings }. Three warning categories: pregnancy_removed (defensive re-gate), condition_removed/condition_warning (from contraindications.json), drug_interaction + supplement_interaction (from interactions.json). Medication name verbatim per skill rule 4. Sorted by severity desc.",
       "depends_on": ["4", "7"],
       "verification": {
         "type": "test",
         "command": "npm test -- engine/interactions",
         "tests_to_write": [
-          "St John's Wort + SSRI -> high-severity warning",
-          "Vitamin K + warfarin -> high-severity warning",
-          "Iron + calcium taken together -> moderate timing warning",
-          "Pregnancy + retinol/vitamin A high dose -> rec removed + warning added",
-          "Pregnancy + folate -> rec retained, no warning",
-          "No interactions -> empty Warning[]"
+          "St John's Wort + SSRI → high drug_interaction with 'ssri' verbatim",
+          "Vitamin K + warfarin → high drug_interaction with 'warfarin' verbatim",
+          "Iron + calcium recs → moderate supplement_interaction (timing)",
+          "Pregnancy + non-safe rec → removed + high pregnancy_removed warning",
+          "Pregnancy + folate → kept, no warning",
+          "No relevant meds/conditions → empty warnings",
+          "Hemochromatosis + iron → condition_removed (from contraindications.json)",
+          "Multi-warning ordering: high severities before moderates",
+          "Deterministic across calls"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "10",
