@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VitaPath
 
-## Getting Started
+Personalized vitamin and supplement recommender. Take a short quiz, get
+recommendations explained against real evidence, see an explainable health
+score, get warned about risky interactions, and track your stack over time.
 
-First, run the development server:
+Capstone project for the AUM AI Agentic class (Spring 2026, Project 3).
+
+## Method: spec-driven development
+
+This repo uses a manual spec-driven workflow. The single source of truth for
+what to build (and what counts as done) is **[`spec.json`](./spec.json)**.
+
+For each goal in `spec.json`, in order:
+
+1. Implement only that goal.
+2. Run the goal's `verification.command`.
+3. If it passes, flip the goal's `status` from `pending` to `passed` and commit.
+4. Move to the next goal whose dependencies are all `passed`.
+
+The full plan and rationale lives at
+`~/.claude/plans/users-itsduku-downloads-project03-web-a-tender-blum.md`.
+
+## Stack
+
+Next.js 16 (App Router, TS) · Tailwind v4 · Supabase (Postgres + magic-link
+auth) · Vercel · Vitest + Playwright.
+
+## Claude Code integration
+
+- **Skill**: `nutrition-domain` (`.claude/skills/nutrition-domain/`) — RDAs,
+  contraindications, interactions. Used whenever editing `lib/engine/`.
+- **MCP server**: `supplement-evidence` (`.claude/mcp/supplement-evidence/`) —
+  exposes `get_supplement`, `list_studies`, `search_evidence` over stdio.
+  Registered in `.mcp.json`. The server runs at dev/build time only; its
+  curated JSON data is bundled for runtime citation lookups in production.
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local      # fill in Supabase keys
+npm run dev                     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Manual setup steps (one-time, can't be automated)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create a free Supabase project at https://supabase.com — copy the URL +
+   anon key + service role key into `.env.local`.
+2. Create a Vercel project pointing at this repo and paste the same env vars
+   into the Vercel dashboard.
+3. (Optional) Inspect the MCP server with the official inspector:
+   ```bash
+   npm --prefix .claude/mcp/supplement-evidence install
+   npm --prefix .claude/mcp/supplement-evidence run inspect
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT (course project).

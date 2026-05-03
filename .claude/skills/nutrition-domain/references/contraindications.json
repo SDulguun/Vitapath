@@ -1,0 +1,32 @@
+[
+  {
+    "supplement_slug": "vitamin_a_high_dose",
+    "condition": "pregnancy",
+    "action": "remove",
+    "message": "High-dose vitamin A (retinol) is teratogenic. Avoid during pregnancy; beta-carotene is a safer source if needed."
+  },
+  {
+    "supplement_slug": "vitamin_e_high_dose",
+    "condition": "anticoagulant_use",
+    "action": "warn",
+    "message": "Vitamin E above 400 IU/day can increase bleeding risk when combined with anticoagulants."
+  },
+  {
+    "supplement_slug": "st_johns_wort",
+    "condition": "pregnancy",
+    "action": "remove",
+    "message": "Insufficient safety data in pregnancy; avoid."
+  },
+  {
+    "supplement_slug": "iron",
+    "condition": "hemochromatosis",
+    "action": "remove",
+    "message": "Iron supplementation is contraindicated in hemochromatosis."
+  },
+  {
+    "supplement_slug": "kava",
+    "condition": "liver_disease",
+    "action": "remove",
+    "message": "Kava has been linked to hepatotoxicity; contraindicated with liver disease."
+  }
+]

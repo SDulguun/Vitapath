@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "source": "NIH Office of Dietary Supplements fact sheets",
+    "units": "mg unless _mcg or _iu suffix on the field name",
+    "note": "Stub data — populate with full NIH ODS values during goal 4."
+  },
+  "vitamin_d_iu": {
+    "1-18":  { "male": { "rda": 600,  "ul": 4000 }, "female": { "rda": 600,  "ul": 4000 } },
+    "19-70": { "male": { "rda": 600,  "ul": 4000 }, "female": { "rda": 600,  "ul": 4000 } },
+    "71+":   { "male": { "rda": 800,  "ul": 4000 }, "female": { "rda": 800,  "ul": 4000 } }
+  },
+  "vitamin_b12_mcg": {
+    "19-70": { "male": { "rda": 2.4, "ul": null }, "female": { "rda": 2.4, "ul": null } }
+  },
+  "iron_mg": {
+    "19-50": { "male": { "rda": 8,   "ul": 45 },   "female": { "rda": 18,  "ul": 45 } },
+    "51+":   { "male": { "rda": 8,   "ul": 45 },   "female": { "rda": 8,   "ul": 45 } }
+  },
+  "magnesium_mg": {
+    "19-30": { "male": { "rda": 400, "ul": 350 },  "female": { "rda": 310, "ul": 350 } },
+    "31+":   { "male": { "rda": 420, "ul": 350 },  "female": { "rda": 320, "ul": 350 } }
+  }
+}

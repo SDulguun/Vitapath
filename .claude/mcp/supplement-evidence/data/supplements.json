@@ -1,0 +1,64 @@
+[
+  {
+    "slug": "vitamin_d",
+    "name": "Vitamin D3 (Cholecalciferol)",
+    "forms": ["softgel", "drops"],
+    "typical_dose": "1000-2000 IU/day",
+    "pregnancy_safe": true,
+    "studies": [
+      {
+        "title": "Vitamin D supplementation and serum 25(OH)D in adults with low sun exposure",
+        "year": 2019,
+        "doi": "10.1093/jn/nxz101",
+        "summary": "1000-2000 IU/day reliably raises serum 25(OH)D into the sufficient range over 8 weeks.",
+        "concerns": ["energy", "bones", "immunity", "low_sun"]
+      }
+    ]
+  },
+  {
+    "slug": "omega_3",
+    "name": "Omega-3 (EPA/DHA)",
+    "forms": ["softgel", "liquid"],
+    "typical_dose": "1000 mg combined EPA+DHA/day",
+    "pregnancy_safe": true,
+    "studies": [
+      {
+        "title": "Marine n-3 fatty acids and cardiovascular endpoints",
+        "year": 2018,
+        "doi": "10.1056/NEJMoa1811403",
+        "summary": "Marine omega-3s associated with modest reduction in major cardiovascular events.",
+        "concerns": ["heart", "brain"]
+      }
+    ]
+  },
+  {
+    "slug": "magnesium_glycinate",
+    "name": "Magnesium Glycinate",
+    "forms": ["capsule", "powder"],
+    "typical_dose": "200-400 mg elemental Mg/day",
+    "pregnancy_safe": true,
+    "studies": [
+      {
+        "title": "Magnesium supplementation and subjective sleep quality",
+        "year": 2021,
+        "summary": "Modest improvements in self-reported sleep onset and quality at 200-400 mg/day.",
+        "concerns": ["sleep", "stress"]
+      }
+    ]
+  },
+  {
+    "slug": "vitamin_b12",
+    "name": "Vitamin B12 (Methylcobalamin)",
+    "forms": ["sublingual", "capsule"],
+    "typical_dose": "500-1000 mcg/day",
+    "pregnancy_safe": true,
+    "studies": [
+      {
+        "title": "B12 status in vegan adults",
+        "year": 2017,
+        "summary": "Vegans without supplementation show high prevalence of B12 deficiency; supplementation normalizes serum B12.",
+        "concerns": ["energy", "vegan", "brain"]
+      }
+    ]
+  }
+]

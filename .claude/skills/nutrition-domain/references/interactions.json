@@ -1,0 +1,38 @@
+[
+  {
+    "a": "st_johns_wort",
+    "b": "ssri",
+    "severity": "high",
+    "summary": "Risk of serotonin syndrome when combined with SSRIs. Avoid this combination."
+  },
+  {
+    "a": "vitamin_k",
+    "b": "warfarin",
+    "severity": "high",
+    "summary": "Vitamin K antagonises warfarin, reducing anticoagulant effect. Keep intake stable; do not start a high-dose vitamin K supplement without medical supervision."
+  },
+  {
+    "a": "iron",
+    "b": "calcium",
+    "severity": "moderate",
+    "summary": "Calcium reduces iron absorption when taken together. Separate doses by at least 2 hours."
+  },
+  {
+    "a": "vitamin_b6",
+    "b": "levodopa",
+    "severity": "moderate",
+    "summary": "B6 can reduce the effectiveness of levodopa unless taken with carbidopa."
+  },
+  {
+    "a": "magnesium",
+    "b": "tetracycline",
+    "severity": "moderate",
+    "summary": "Magnesium binds tetracyclines and reduces antibiotic absorption. Separate by 4+ hours."
+  },
+  {
+    "a": "fish_oil",
+    "b": "anticoagulant",
+    "severity": "moderate",
+    "summary": "High-dose fish oil may increase bleeding risk when combined with anticoagulants."
+  }
+]

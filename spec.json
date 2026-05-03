@@ -1,0 +1,252 @@
+{
+  "project": "VitaPath",
+  "summary": "Personalized vitamin and supplement recommender. Multi-step quiz feeds a rule-based engine that produces explained recommendations, an explainable health score, drug/supplement interaction warnings, recommendation history, cost-optimized alternatives, and a shareable read-only result page. Built with Next.js 16 + Supabase, integrating a custom 'nutrition-domain' Claude Code Skill and a 'supplement-evidence' MCP server.",
+  "constraints": [
+    "Stack is fixed: Next.js 16 (App Router, TS), Tailwind v4, Supabase (Postgres + magic-link auth), Vercel.",
+    "This is Next.js 16 / React 19 — newer than Claude's training cutoff. Before writing or editing any Next.js code, read the relevant guide in node_modules/next/dist/docs/ and respect the warnings in AGENTS.md.",
+    "Use the nutrition-domain Skill (.claude/skills/nutrition-domain/) whenever editing files under lib/engine/.",
+    "Use the supplement-evidence MCP server (.claude/mcp/supplement-evidence/) for citation lookups; the server runs at dev/build time only — its JSON data is bundled for runtime.",
+    "Every user-facing recommendation surface must show a medical disclaimer and respect age/pregnancy gating.",
+    "Per-user data is isolated via Supabase RLS — never bypass RLS in application code.",
+    "Use npm (not pnpm/yarn) — verification commands assume npm scripts.",
+    "Goals execute one at a time per the spec-driven workflow; flip status pending -> passed only after the goal's verification command passes."
+  ],
+  "assumptions": [
+    "User has (or will create) a Supabase project and a Vercel account; they will paste env vars when goal 2 / 3 ask for them.",
+    "Curated supplement dataset of ~30 entries is sufficient for the demo (no external API integrations).",
+    "Demo audience is the AUM AI Agentic class in Week 16 of Spring 2026."
+  ],
+  "goal_selection_rule": "Work the first pending goal whose dependencies are all passed.",
+  "goals": [
+    {
+      "id": "1",
+      "goal": "Next.js 16 + TS + Tailwind scaffold with placeholder VitaPath landing page; spec.json, .claude/ skill+MCP scaffolding, and updated README all committed; live on Vercel.",
+      "depends_on": [],
+      "verification": {
+        "type": "command",
+        "command": "npm run build",
+        "checklist": [
+          "git log shows initial 'chore: vitapath scaffold + spec.json' commit",
+          "https://<vercel-url>/ returns 200 and renders the VitaPath landing copy",
+          "spec.json present at repo root and parses as valid JSON"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "2",
+      "goal": "Supabase project linked to repo via env vars; migrations create profiles/quizzes/recommendations/share_tokens tables with RLS enabled and policies for per-user access.",
+      "depends_on": ["1"],
+      "verification": {
+        "type": "command",
+        "command": "supabase db diff --linked",
+        "checklist": [
+          "supabase db diff returns empty (no drift)",
+          "Querying pg_tables and pg_policies confirms RLS enabled on all 4 tables with at least one policy each"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "3",
+      "goal": "Magic-link auth flow: sign-in form, callback handler, sign-out action; authed-only /history route redirects unauthenticated users to /login.",
+      "depends_on": ["2"],
+      "verification": {
+        "type": "browser",
+        "command": "npm run test:e2e -- auth",
+        "tests_to_write": ["e2e: full magic-link round-trip from /login to authed page"],
+        "checklist": [
+          "Anonymous visit to /history redirects to /login",
+          "Sign-out clears the Supabase session cookie"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "4",
+      "goal": "nutrition-domain Skill scaffolded with SKILL.md and reference JSON files (nutrient_rdas.json, interactions.json, contraindications.json) that validate against a Zod schema in lib/engine/schemas.ts.",
+      "depends_on": [],
+      "verification": {
+        "type": "test",
+        "command": "npm test -- engine/schemas",
+        "tests_to_write": [
+          "All reference JSON files parse against their Zod schemas",
+          "Skill loads without errors when listed by Claude Code"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "5",
+      "goal": "supplement-evidence MCP server runs over stdio and exposes get_supplement, list_studies, search_evidence tools backed by data/supplements.json; registered in .mcp.json at repo root.",
+      "depends_on": [],
+      "verification": {
+        "type": "command",
+        "command": "npm --prefix .claude/mcp/supplement-evidence run inspect",
+        "checklist": [
+          "MCP Inspector shows the 3 tools",
+          "get_supplement('vitamin_d') returns the seeded record",
+          "list_studies('omega_3') returns at least 1 study"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "6",
+      "goal": "Multi-step quiz UI at /quiz/[step]: 5 sections (basics, diet, sleep, stress, lifestyle), URL-routed steps, Zod-validated forms, progress bar, server action persists answers to a draft quiz row on submit.",
+      "depends_on": ["3"],
+      "verification": {
+        "type": "browser",
+        "command": "npm run test:e2e -- quiz",
+        "tests_to_write": [
+          "Playwright walks all 5 steps end-to-end",
+          "Refresh on step 3 keeps answers from steps 1-2",
+          "Final submit creates a quizzes row visible in Supabase"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "7",
+      "goal": "Pure recommendation engine in lib/engine/rules.ts: takes typed quiz answers, returns Recommendation[] with rule_id, supplement_slug, dose, and rationale; uses nutrition-domain JSON as the source of truth.",
+      "depends_on": ["4"],
+      "verification": {
+        "type": "test",
+        "command": "npm test -- engine/rules",
+        "tests_to_write": [
+          ">=10 unit tests covering: low-sun-exposure -> vitamin D; vegan -> B12; high-stress -> magnesium; low-sleep -> magnesium glycinate; female 19-50 -> iron consideration; pregnancy -> folate; etc.",
+          "Engine is pure (same input -> same output, no I/O)"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "8",
+      "goal": "Health score function in lib/engine/score.ts returns { score: 0-100, contributions: [{ rule_id, delta, label }] } where contributions sum to score - baseline.",
+      "depends_on": ["7"],
+      "verification": {
+        "type": "test",
+        "command": "npm test -- engine/score",
+        "tests_to_write": [
+          "Deterministic for fixed input",
+          "sum(contributions.delta) === score - baseline for 5 sampled inputs",
+          "Contributions are stable-sorted by absolute delta descending"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "9",
+      "goal": "Interaction checker in lib/engine/interactions.ts: given recommendations + user-disclosed medications/conditions, returns Warning[] with severity and explanation; pregnancy contraindications remove offending recs and add a warning.",
+      "depends_on": ["4", "7"],
+      "verification": {
+        "type": "test",
+        "command": "npm test -- engine/interactions",
+        "tests_to_write": [
+          "St John's Wort + SSRI -> high-severity warning",
+          "Vitamin K + warfarin -> high-severity warning",
+          "Iron + calcium taken together -> moderate timing warning",
+          "Pregnancy + retinol/vitamin A high dose -> rec removed + warning added",
+          "Pregnancy + folate -> rec retained, no warning",
+          "No interactions -> empty Warning[]"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "10",
+      "goal": "Results page at /results: rec cards, animated score gauge, contribution breakdown, interaction warnings, evidence citations sourced from supplement-evidence MCP data bundled at build time.",
+      "depends_on": ["5", "7", "8", "9"],
+      "verification": {
+        "type": "browser",
+        "command": "npm run test:e2e -- results",
+        "tests_to_write": [
+          "Quiz -> results renders all sections",
+          "Each rec card shows >=1 evidence citation with study title and year",
+          "Score gauge value matches /api/score response"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "11",
+      "goal": "/history page lists past quizzes (date, score, # recs) and renders a Recharts line chart of score over time.",
+      "depends_on": ["6", "8"],
+      "verification": {
+        "type": "browser",
+        "command": "npm run test:e2e -- history",
+        "tests_to_write": [
+          "After 2 quizzes, history shows 2 rows and 2 plotted points",
+          "Clicking a row deep-links to that quiz's frozen result view"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "12",
+      "goal": "Cost-optimized alternative for each recommendation: alternative selector picks the cheapest supplements.json brand meeting dose; UI toggle on each rec card swaps recommended brand <-> alternative.",
+      "depends_on": ["10"],
+      "verification": {
+        "type": "test",
+        "command": "npm test -- engine/alternatives",
+        "tests_to_write": [
+          "Selector returns cheapest brand whose dose >= recommended",
+          "Returns null when no alternative is cheaper than the primary",
+          "UI: clicking 'see alternative' updates price and brand text without page reload"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "13",
+      "goal": "Shareable read-only result page at /r/[token]: server action mints a token (unique, expires_at = now + 30 days) and the page renders without auth via a security-definer RPC.",
+      "depends_on": ["10"],
+      "verification": {
+        "type": "browser",
+        "command": "npm run test:e2e -- share",
+        "tests_to_write": [
+          "Authed user generates a share link from /results",
+          "Incognito visit to /r/[token] renders read-only results",
+          "Visit to /r/[expired-token] shows an 'expired' state and no data"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "14",
+      "goal": "Pre-quiz gating: hard-coded medical disclaimer modal must be acknowledged before /quiz/1 is accessible; under-18 selection blocks quiz with a friendly 'consult a pediatrician' page; pregnancy-status answer is captured up-front and threaded into the engine.",
+      "depends_on": ["6"],
+      "verification": {
+        "type": "browser",
+        "command": "npm run test:e2e -- gating",
+        "tests_to_write": [
+          "Direct visit to /quiz/1 without acknowledging disclaimer redirects to /disclaimer",
+          "Selecting age < 18 navigates to a blocking explainer, not the quiz",
+          "Selecting pregnant: yes -> the engine receives pregnancy=true (asserted via a /api/debug/last-input route guarded behind NODE_ENV=development)"
+        ]
+      },
+      "status": "pending"
+    },
+    {
+      "id": "15",
+      "goal": "Final polish: README rewritten with setup, env vars, MCP/Skill docs; architecture diagram (PNG or mermaid in README); production Vercel deploy passing; Lighthouse landing >=90; demo checklist runs clean.",
+      "depends_on": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"],
+      "verification": {
+        "type": "manual",
+        "command": "npm test && npm run test:e2e && npm run build",
+        "checklist": [
+          "All unit + e2e suites green",
+          "npm run build completes with zero type errors",
+          "Live URL passes manual demo checklist (signup, quiz, pregnancy re-quiz, share link, history)",
+          "README has: install, env, run, deploy, MCP setup, Skill description, architecture diagram"
+        ]
+      },
+      "status": "pending"
+    }
+  ],
+  "definition_of_done": [
+    "All 15 goals are passed (status = 'passed' in spec.json)",
+    "Verification passes for each goal",
+    "Production app reachable on Vercel and demo checklist green"
+  ]
+}
