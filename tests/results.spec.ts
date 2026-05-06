@@ -97,6 +97,19 @@ test.describe.serial("results page", () => {
       page.getByText(/general dietary guidance, not medical advice/i),
     ).toBeVisible();
 
+    // Cost-optimized alternative toggle (Goal 12) — exercise it on vitamin_d.
+    const urlBefore = page.url();
+    const priceLocator = page.getByTestId("brand-price-vitamin_d");
+    const toggle = page.getByTestId("toggle-alt-vitamin_d");
+    await expect(toggle).toBeVisible();
+    const primaryPriceText = (await priceLocator.textContent())?.trim();
+    await toggle.click();
+    await expect(priceLocator).not.toHaveText(primaryPriceText ?? "<unset>");
+    expect(page.url(), "no navigation on alternative toggle").toBe(urlBefore);
+    // Toggle back
+    await page.getByTestId("toggle-alt-vitamin_d").click();
+    await expect(priceLocator).toHaveText(primaryPriceText ?? "<unset>");
+
     // DB sanity: a recommendations row exists per visible card
     const { data: recRows } = await admin
       .from("recommendations")

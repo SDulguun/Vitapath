@@ -3,6 +3,12 @@
 // both /results (latest) and /results/[id] (specific quiz).
 import Link from "next/link";
 import type { Results } from "@/lib/results/data";
+import { getSupplement } from "@/lib/engine/data";
+import {
+  chooseAlternative,
+  getPrimaryBrand,
+} from "@/lib/engine/alternatives";
+import { RecCard } from "./RecCard";
 
 const sevTone: Record<string, string> = {
   high: "border-red-300 bg-red-50 text-red-900",
@@ -118,61 +124,20 @@ export function ResultsView({
             </p>
           ) : (
             <ul className="mt-4 space-y-4" data-testid="rec-list">
-              {recommendations.map((r) => (
-                <li
-                  key={r.supplement_slug}
-                  data-testid={`rec-${r.supplement_slug}`}
-                  className="rounded-3xl border border-stone-200 bg-white p-6"
-                >
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h3 className="text-lg font-medium">{r.name}</h3>
-                    <p className="text-sm text-stone-500">{r.dose}</p>
-                  </div>
-                  <ul className="mt-3 space-y-1 text-sm text-stone-700">
-                    {r.rationale.map((rr) => (
-                      <li key={rr.rule_id}>• {rr.reason}</li>
-                    ))}
-                  </ul>
-
-                  {r.evidence.length > 0 && (
-                    <div
-                      data-testid={`evidence-${r.supplement_slug}`}
-                      className="mt-4 border-t border-stone-200 pt-4"
-                    >
-                      <p className="text-xs uppercase tracking-wider text-stone-500">
-                        Evidence
-                      </p>
-                      <ul className="mt-2 space-y-2">
-                        {r.evidence.map((s, i) => (
-                          <li
-                            key={`${r.supplement_slug}-${i}`}
-                            className="text-xs text-stone-600"
-                          >
-                            <span className="font-medium text-stone-800">
-                              {s.title}
-                            </span>{" "}
-                            <span className="tabular-nums">({s.year})</span>
-                            {s.doi && (
-                              <>
-                                {" "}
-                                <span className="text-stone-400">·</span>{" "}
-                                <a
-                                  href={`https://doi.org/${s.doi}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="underline-offset-4 hover:underline"
-                                >
-                                  doi:{s.doi}
-                                </a>
-                              </>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </li>
-              ))}
+              {recommendations.map((r) => {
+                const supp = getSupplement(r.supplement_slug);
+                const primary = supp ? getPrimaryBrand(supp) : null;
+                const alternative = supp ? chooseAlternative(supp) : null;
+                if (!primary) return null;
+                return (
+                  <RecCard
+                    key={r.supplement_slug}
+                    rec={r}
+                    primary={primary}
+                    alternative={alternative}
+                  />
+                );
+              })}
             </ul>
           )}
         </div>

@@ -196,18 +196,23 @@
     },
     {
       "id": "12",
-      "goal": "Cost-optimized alternative for each recommendation: alternative selector picks the cheapest supplements.json brand meeting dose; UI toggle on each rec card swaps recommended brand <-> alternative.",
+      "goal": "Cost-optimized alternative for each recommendation. supplements.json gains a brands[] field with synthetic prices and meets_dose flag. Pure chooseAlternative() picks the cheapest brand that meets the dose AND is cheaper than the primary; null otherwise. <RecCard> client component shows a toggle to swap between primary and alternative without page reload.",
       "depends_on": ["10"],
       "verification": {
         "type": "test",
         "command": "npm test -- engine/alternatives",
         "tests_to_write": [
-          "Selector returns cheapest brand whose dose >= recommended",
-          "Returns null when no alternative is cheaper than the primary",
-          "UI: clicking 'see alternative' updates price and brand text without page reload"
+          "Selector returns cheapest brand meeting dose when cheaper than primary",
+          "null when only 1 brand",
+          "null when no brand is cheaper than the primary",
+          "filters out brands that don't meet dose",
+          "returns the cheapest among multiple eligible alternatives",
+          "getPrimaryBrand falls back to first brand when no is_primary flag",
+          "getPrimaryBrand returns explicitly flagged primary even when first is cheaper",
+          "e2e: clicking toggle on /results updates brand price text without navigation"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "13",

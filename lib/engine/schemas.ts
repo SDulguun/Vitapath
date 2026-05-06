@@ -60,6 +60,14 @@ export const StudySchema = z.object({
   concerns: z.array(z.string().min(1)).min(1),
 });
 
+export const BrandSchema = z.object({
+  name: z.string().min(1),
+  price_usd_per_month: z.number().positive(),
+  meets_dose: z.boolean(),
+  is_primary: z.boolean().optional(),
+  url: z.string().url().optional(),
+});
+
 export const SupplementSchema = z.object({
   slug: z.string().min(1),
   name: z.string().min(1),
@@ -67,6 +75,7 @@ export const SupplementSchema = z.object({
   typical_dose: z.string().min(1),
   pregnancy_safe: z.boolean(),
   studies: z.array(StudySchema).min(1),
+  brands: z.array(BrandSchema).min(1),
 });
 
 export const SupplementsSchema = z.array(SupplementSchema).min(1);
@@ -75,6 +84,7 @@ export const SupplementsSchema = z.array(SupplementSchema).min(1);
 
 export type Sex = z.infer<typeof SexSchema>;
 export type Study = z.infer<typeof StudySchema>;
+export type Brand = z.infer<typeof BrandSchema>;
 export type Supplement = z.infer<typeof SupplementSchema>;
 export type Severity = z.infer<typeof SeveritySchema>;
 export type ContraindicationAction = z.infer<typeof ContraindicationActionSchema>;

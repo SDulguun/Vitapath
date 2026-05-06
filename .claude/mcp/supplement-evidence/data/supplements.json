@@ -13,6 +13,11 @@
         "summary": "1000-2000 IU/day reliably raises serum 25(OH)D into the sufficient range over 8 weeks.",
         "concerns": ["energy", "bones", "immunity", "low_sun"]
       }
+    ],
+    "brands": [
+      { "name": "Pure Encapsulations D3", "price_usd_per_month": 24.0, "meets_dose": true, "is_primary": true },
+      { "name": "Nature Made D3 1000 IU", "price_usd_per_month": 9.0, "meets_dose": true },
+      { "name": "NOW Foods D3 1000 IU", "price_usd_per_month": 6.0, "meets_dose": true }
     ]
   },
   {
@@ -35,6 +40,11 @@
         "summary": "DHA during pregnancy is associated with improved infant neurodevelopmental outcomes.",
         "concerns": ["pregnancy", "brain"]
       }
+    ],
+    "brands": [
+      { "name": "Nordic Naturals Ultimate Omega", "price_usd_per_month": 32.0, "meets_dose": true, "is_primary": true },
+      { "name": "NOW Foods Ultra Omega-3", "price_usd_per_month": 14.0, "meets_dose": true },
+      { "name": "Sports Research Triple Strength", "price_usd_per_month": 22.0, "meets_dose": true }
     ]
   },
   {
@@ -50,6 +60,11 @@
         "summary": "Modest improvements in self-reported sleep onset and quality at 200-400 mg/day.",
         "concerns": ["sleep", "stress"]
       }
+    ],
+    "brands": [
+      { "name": "Pure Encapsulations Magnesium Glycinate", "price_usd_per_month": 26.0, "meets_dose": true, "is_primary": true },
+      { "name": "Doctor's Best High Absorption", "price_usd_per_month": 16.0, "meets_dose": true },
+      { "name": "NOW Foods Magnesium Glycinate", "price_usd_per_month": 11.0, "meets_dose": true }
     ]
   },
   {
@@ -65,6 +80,10 @@
         "summary": "Vegans without supplementation show high prevalence of B12 deficiency; supplementation normalizes serum B12.",
         "concerns": ["energy", "vegan", "brain"]
       }
+    ],
+    "brands": [
+      { "name": "Jarrow Formulas Methyl B-12", "price_usd_per_month": 14.0, "meets_dose": true, "is_primary": true },
+      { "name": "NOW Foods Methyl B-12 1000 mcg", "price_usd_per_month": 8.0, "meets_dose": true }
     ]
   },
   {
@@ -86,6 +105,11 @@
         "summary": "Pregnant individuals require ~27 mg/day; supplementation reduces incidence of iron-deficiency anemia.",
         "concerns": ["pregnancy", "iron"]
       }
+    ],
+    "brands": [
+      { "name": "Thorne Iron Bisglycinate 25 mg", "price_usd_per_month": 22.0, "meets_dose": true, "is_primary": true },
+      { "name": "Solgar Gentle Iron 25 mg", "price_usd_per_month": 12.0, "meets_dose": true },
+      { "name": "Generic ferrous sulfate", "price_usd_per_month": 5.0, "meets_dose": false }
     ]
   },
   {
@@ -102,6 +126,10 @@
         "summary": "Folic acid supplementation around conception reduces neural tube defect risk by ~70%.",
         "concerns": ["pregnancy", "preconception"]
       }
+    ],
+    "brands": [
+      { "name": "Thorne 5-MTHF 1 mg", "price_usd_per_month": 18.0, "meets_dose": true, "is_primary": true },
+      { "name": "Solgar Folate 800 mcg", "price_usd_per_month": 9.0, "meets_dose": true }
     ]
   }
 ]
