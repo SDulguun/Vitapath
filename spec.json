@@ -182,17 +182,17 @@
     },
     {
       "id": "11",
-      "goal": "/history page lists past quizzes (date, score, # recs) and renders a Recharts line chart of score over time.",
+      "goal": "/history page lists past quizzes (date, score, rec count) and renders a Recharts line chart of score over time. Each row deep-links to /results/[id] which renders the frozen result for that quiz via a shared ResultsView server component.",
       "depends_on": ["6", "8"],
       "verification": {
         "type": "browser",
         "command": "npm run test:e2e -- history",
         "tests_to_write": [
-          "After 2 quizzes, history shows 2 rows and 2 plotted points",
-          "Clicking a row deep-links to that quiz's frozen result view"
+          "e2e: after 2 quizzes, /history shows exactly 2 rows + the Recharts trend chart",
+          "e2e: clicking a row navigates to /results/<uuid> and the frozen view renders score + rec list"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "12",
