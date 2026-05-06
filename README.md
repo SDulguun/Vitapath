@@ -4,11 +4,6 @@
 > explainable health score and recommendations cited against real evidence,
 > with warnings before they collide with your medications.
 
-Capstone project for the AUM **AI Agentic** class (Spring 2026, Project 3,
-35% of the grade). Built end-to-end with [Claude Code][cc] using a
-spec-driven workflow: every feature is a numbered goal in
-[`spec.json`](./spec.json) with its own verification command.
-
 [**Live demo →**](https://vitamin-chi.vercel.app/)
 
 [cc]: https://docs.anthropic.com/en/docs/claude-code
