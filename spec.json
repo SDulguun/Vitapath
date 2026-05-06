@@ -231,18 +231,19 @@
     },
     {
       "id": "14",
-      "goal": "Pre-quiz gating: hard-coded medical disclaimer modal must be acknowledged before /quiz/1 is accessible; under-18 selection blocks quiz with a friendly 'consult a pediatrician' page; pregnancy-status answer is captured up-front and threaded into the engine.",
+      "goal": "Pre-quiz gating. /disclaimer page acknowledges via a server action that sets vitapath_disclaimer_v1 cookie (1y, sameSite lax). proxy.ts redirects authed users from /quiz/* to /disclaimer when the cookie is absent. Step 1 of the quiz routes age_band='13-18' to /under-18 (a blocking pediatrician page). Pregnancy is captured up-front and the engine consumes it via the existing saveQuiz pipeline.",
       "depends_on": ["6"],
       "verification": {
         "type": "browser",
         "command": "npm run test:e2e -- gating",
         "tests_to_write": [
-          "Direct visit to /quiz/1 without acknowledging disclaimer redirects to /disclaimer",
-          "Selecting age < 18 navigates to a blocking explainer, not the quiz",
-          "Selecting pregnant: yes -> the engine receives pregnancy=true (asserted via a /api/debug/last-input route guarded behind NODE_ENV=development)"
+          "e2e: authed visit to /quiz/1 without disclaimer cookie → /disclaimer?next=/quiz/1",
+          "e2e: clicking accept on /disclaimer drops the cookie and lands on /quiz/1",
+          "e2e: selecting 13-18 on step 1 navigates to /under-18 (and clears the draft)",
+          "e2e: pregnancy=yes flows through saveQuiz; DB row's answers.pregnancy_status === 'yes' AND a folate row exists in recommendations"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "15",

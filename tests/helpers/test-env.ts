@@ -33,7 +33,10 @@ export function uniqueEmail(prefix = "e2e"): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@vitapath.test`;
 }
 
-/** Ensure user exists, mint a magic-link token via admin, visit our callback. */
+/** Ensure user exists, mint a magic-link token via admin, visit our callback.
+ *  Also seeds the `vitapath_disclaimer_v1` cookie so /quiz/* routes work in
+ *  most tests. Tests that need the cookie absent (gating spec) can clear it
+ *  via page.context().clearCookies({ name: "vitapath_disclaimer_v1" }). */
 export async function signInAs(page: Page, email: string): Promise<void> {
   const admin = adminClient();
   const { data: usersData } = await admin.auth.admin.listUsers();
@@ -52,6 +55,16 @@ export async function signInAs(page: Page, email: string): Promise<void> {
   );
   // Land on /history → confirms session is established
   await page.waitForURL(/\/history/);
+
+  // Seed the disclaimer cookie so /quiz/* isn't gated for the typical test.
+  await page.context().addCookies([
+    {
+      name: "vitapath_disclaimer_v1",
+      value: new Date().toISOString(),
+      url: page.url(),
+      sameSite: "Lax",
+    },
+  ]);
 }
 
 export async function deleteUser(email: string): Promise<void> {

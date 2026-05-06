@@ -47,6 +47,18 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Disclaimer gate: authed users must acknowledge before entering /quiz/*.
+  if (
+    user &&
+    path.startsWith("/quiz") &&
+    !request.cookies.has("vitapath_disclaimer_v1")
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/disclaimer";
+    url.searchParams.set("next", path);
+    return NextResponse.redirect(url);
+  }
+
   return response;
 }
 

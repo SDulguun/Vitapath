@@ -104,6 +104,14 @@ export function QuizStep({ step }: { step: number }) {
     saveDraft(merged);
     setDraft(merged);
 
+    // Step 1 gating: under-18 users are routed to a blocking explainer
+    // rather than continuing through the quiz.
+    if (step === 1 && merged.age_band === "13-18") {
+      clearDraft();
+      router.push(`/under-18`);
+      return;
+    }
+
     if (!isFinal) {
       router.push(`/quiz/${step + 1}`);
       return;
