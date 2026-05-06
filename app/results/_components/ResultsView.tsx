@@ -1,6 +1,7 @@
 // Pure presentational component — accepts an already-assembled Results object
 // and renders the score gauge, warnings, and recommendation cards. Used by
-// both /results (latest) and /results/[id] (specific quiz).
+// /results (latest), /results/[id] (specific quiz), and /r/[token] (public
+// shared view, mode="shared").
 import Link from "next/link";
 import type { Results } from "@/lib/results/data";
 import { getSupplement } from "@/lib/engine/data";
@@ -9,6 +10,7 @@ import {
   getPrimaryBrand,
 } from "@/lib/engine/alternatives";
 import { RecCard } from "./RecCard";
+import { ShareButton } from "./ShareButton";
 
 const sevTone: Record<string, string> = {
   high: "border-red-300 bg-red-50 text-red-900",
@@ -19,9 +21,13 @@ const sevTone: Record<string, string> = {
 export function ResultsView({
   results,
   isHistorical = false,
+  mode = "personal",
 }: {
   results: Results;
   isHistorical?: boolean;
+  /** "personal" — owner viewing their own result; show share + history CTAs.
+   *  "shared"   — anonymous public view via /r/[token]; hide auth CTAs. */
+  mode?: "personal" | "shared";
 }) {
   const { score, recommendations, warnings, taken_at } = results;
   const scorePct = Math.max(0, Math.min(100, score.score));
@@ -31,7 +37,7 @@ export function ResultsView({
     <main className="min-h-screen bg-stone-50 text-stone-900">
       <section className="mx-auto max-w-3xl px-6 py-16">
         <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
-          VitaPath · {isHistorical ? "Past result" : "Results"}
+          VitaPath · {mode === "shared" ? "Shared result" : isHistorical ? "Past result" : "Results"}
         </p>
         <h1 className="mt-3 text-4xl">Your stack</h1>
         <p className="mt-1 text-sm text-stone-500">Saved {taken}</p>
@@ -148,20 +154,38 @@ export function ResultsView({
           to a clinician before starting, stopping, or combining any
           supplement.
         </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            href="/quiz/1"
-            className="rounded-full border border-stone-300 px-5 py-2 text-sm transition hover:border-stone-500"
-          >
-            Re-take the quiz
-          </Link>
-          <Link
-            href="/history"
-            className="rounded-full border border-stone-300 px-5 py-2 text-sm transition hover:border-stone-500"
-          >
-            View history
-          </Link>
-        </div>
+        {mode === "shared" ? (
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/"
+              className="rounded-full border border-stone-300 px-5 py-2 text-sm transition hover:border-stone-500"
+            >
+              About VitaPath
+            </Link>
+            <Link
+              href="/quiz/1"
+              className="rounded-full bg-stone-900 px-5 py-2 text-sm font-medium text-stone-50 transition hover:bg-stone-700"
+            >
+              Get your own
+            </Link>
+          </div>
+        ) : (
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/quiz/1"
+              className="rounded-full border border-stone-300 px-5 py-2 text-sm transition hover:border-stone-500"
+            >
+              Re-take the quiz
+            </Link>
+            <Link
+              href="/history"
+              className="rounded-full border border-stone-300 px-5 py-2 text-sm transition hover:border-stone-500"
+            >
+              View history
+            </Link>
+            <ShareButton quizId={results.quiz_id} />
+          </div>
+        )}
       </section>
     </main>
   );

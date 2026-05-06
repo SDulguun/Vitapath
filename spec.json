@@ -216,18 +216,18 @@
     },
     {
       "id": "13",
-      "goal": "Shareable read-only result page at /r/[token]: server action mints a token (unique, expires_at = now + 30 days) and the page renders without auth via a security-definer RPC.",
+      "goal": "Shareable read-only /r/[token]. createShareToken server action mints a 32-char base64url token via crypto.randomBytes, inserts into share_tokens (RLS gates ownership, default expires_at = now + 30 days). The public /r/[token] page calls get_shared_result via an anonymous Supabase client and renders ResultsView in mode='shared' (no /history or share buttons). ShareButton client component on /results reveals a copyable URL.",
       "depends_on": ["10"],
       "verification": {
         "type": "browser",
         "command": "npm run test:e2e -- share",
         "tests_to_write": [
-          "Authed user generates a share link from /results",
-          "Incognito visit to /r/[token] renders read-only results",
-          "Visit to /r/[expired-token] shows an 'expired' state and no data"
+          "e2e: authed user clicks share, share-link-box appears with /r/<token>",
+          "e2e: fresh browser context (anon) visits the URL — score-section + rec-list visible, no share-button present",
+          "e2e: admin-inserted expired share_token + visit to /r/<token> shows the expired-state UI"
         ]
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": "14",
