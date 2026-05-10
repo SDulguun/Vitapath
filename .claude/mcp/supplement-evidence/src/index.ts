@@ -88,7 +88,10 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
   }
 
   if (name === "get_supplement") {
-    const { studies, ...meta } = supplement;
+    // Strip the studies array — that's what list_studies / search_evidence
+    // are for; get_supplement should be a lean metadata payload.
+    const { studies: _studies, ...meta } = supplement;
+    void _studies;
     return { content: [{ type: "text", text: JSON.stringify(meta) }] };
   }
 

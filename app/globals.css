@@ -1,26 +1,86 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─── Design tokens ──────────────────────────────────────────────────────
+   Phase 1 — declarative-only. Nothing in the app references these yet; the
+   primitive components landing in phase 2 (`feat/component-library`) will.
+   Keep this block as the single source of truth for the design system.
+   ──────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Surfaces */
+  --color-bg:            #FAF7F2;  /* warm cream, page background */
+  --color-surface:       #FFFFFF;  /* cards */
+  --color-surface-soft:  #F2EDE5;  /* sunken sections, code-like blocks */
+  --color-surface-sage:  #EEF3EC;  /* tinted surface for "score" / hero zones */
+
+  /* Ink (text) */
+  --color-ink:           #1F2D24;  /* deep forest, headings + primary text */
+  --color-ink-soft:      #4A5A50;  /* secondary text */
+  --color-ink-muted:     #8A9A8F;  /* tertiary, captions, eyebrows */
+
+  /* Brand sage */
+  --color-sage:          #6F8F7A;  /* primary action, accents */
+  --color-sage-deep:     #54725F;  /* hover/pressed */
+  --color-sage-soft:     #DDE7DF;  /* chips, subtle highlights */
+
+  /* Semantic */
+  --color-terracotta:      #C2735A;  /* warnings (medium severity) */
+  --color-terracotta-soft: #F4E1D8;
+  --color-amber:           #C99858;  /* caution */
+  --color-amber-soft:      #F5E8D3;
+  --color-rose:            #A24D4D;  /* high-severity / critical */
+  --color-rose-soft:       #F1DADA;
+  --color-evidence:        #5C7A93;  /* "evidence" cool accent */
+  --color-evidence-soft:   #DDE6EE;
+
+  /* Radii */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-pill: 999px;
+
+  /* Shadows — soft, never harsh */
+  --shadow-sm: 0 1px 2px rgba(31, 45, 36, 0.04), 0 1px 3px rgba(31, 45, 36, 0.06);
+  --shadow-md: 0 4px 12px rgba(31, 45, 36, 0.06), 0 2px 4px rgba(31, 45, 36, 0.04);
+  --shadow-lg: 0 12px 32px rgba(31, 45, 36, 0.08), 0 4px 8px rgba(31, 45, 36, 0.04);
+
+  /* Motion */
+  --ease-out-soft:  cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast:  160ms;
+  --duration-med:   280ms;
+  --duration-slow:  520ms;
 }
 
+/* Wire next/font CSS variables (set on <html> in app/layout.tsx) into the
+   theme. We use `@theme inline` so the resolved utility CSS reads
+   `font-family: var(--font-fraunces), …` rather than re-emitting a layer of
+   indirection through `--font-serif`. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans:  var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Body defaults — the only visual change in this phase. Existing pages still
+   set their own bg/text via Tailwind utilities so they keep their current
+   look until phases 3+ refactor them. */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Accessibility safety net: globally damp animation/transition for users who
+   prefer reduced motion. Per-component motion (gauge fill, fade-up) will
+   additionally guard their own keyframes — this is belt + braces. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

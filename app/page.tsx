@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-stone-50 text-stone-900">
@@ -15,12 +17,12 @@ export default function Home() {
           medications.
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a
+          <Link
             href="/quiz/1"
             className="rounded-full bg-stone-900 px-8 py-3 text-sm font-medium text-stone-50 transition hover:bg-stone-700"
           >
             Start the quiz
-          </a>
+          </Link>
           <a
             href="#how"
             className="rounded-full border border-stone-300 px-8 py-3 text-sm font-medium text-stone-700 transition hover:border-stone-500"

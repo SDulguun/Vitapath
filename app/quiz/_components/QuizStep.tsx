@@ -65,8 +65,13 @@ export function QuizStep({ step }: { step: number }) {
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  // Load draft from localStorage after mount (SSR-safe).
+  // Load draft from localStorage after mount (SSR-safe). We intentionally
+  // setState in this effect because the alternative (lazy-init from
+  // useState) reads `window` during the initial server render, breaking
+  // hydration. Phase 4 (refactor/quiz-steps) replaces this with
+  // useSyncExternalStore, which is the React 19 idiomatic fix.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDraft(loadDraft());
   }, []);
 
