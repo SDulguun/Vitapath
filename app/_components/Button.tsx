@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cx } from "./_cx";
 
-type Variant = "primary" | "secondary" | "ghost";
-type Size = "md" | "lg";
+export type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonSize = "md" | "lg";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-pill " +
@@ -11,7 +11,7 @@ const base =
   "disabled:opacity-50 disabled:pointer-events-none " +
   "active:scale-[0.98]";
 
-const variants: Record<Variant, string> = {
+const variants: Record<ButtonVariant, string> = {
   primary:
     "bg-sage text-white shadow-sm hover:bg-sage-deep hover:shadow-md " +
     "border border-sage-deep/0",
@@ -21,14 +21,25 @@ const variants: Record<Variant, string> = {
     "bg-transparent text-ink-soft hover:text-ink hover:bg-surface-soft",
 };
 
-const sizes: Record<Size, string> = {
+const sizes: Record<ButtonSize, string> = {
   md: "px-5 py-2.5 text-sm",
   lg: "px-7 py-3.5 text-base",
 };
 
+/** Shared class string for both <Button> (renders <button>) and any
+ *  link-styled-as-button case (e.g. `<Link className={buttonClasses("primary","lg")}>`).
+ *  Used instead of polymorphic-`as` to keep the Button API simple. */
+export function buttonClasses(
+  variant: ButtonVariant = "primary",
+  size: ButtonSize = "md",
+  className?: string,
+): string {
+  return cx(base, variants[variant], sizes[size], className);
+}
+
 export type ButtonProps = {
-  variant?: Variant;
-  size?: Size;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   children: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -43,7 +54,7 @@ export function Button({
   return (
     <button
       type={type ?? "button"}
-      className={cx(base, variants[variant], sizes[size], className)}
+      className={buttonClasses(variant, size, className)}
       {...rest}
     >
       {children}

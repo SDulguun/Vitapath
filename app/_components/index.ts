@@ -6,7 +6,13 @@
 export { Container } from "./Container";
 export { Eyebrow } from "./Eyebrow";
 export { PageHeading, SectionHeading } from "./Headings";
-export { Button, type ButtonProps } from "./Button";
+export {
+  Button,
+  buttonClasses,
+  type ButtonProps,
+  type ButtonVariant,
+  type ButtonSize,
+} from "./Button";
 export { Card, type CardTone } from "./Card";
 export { Field, TextInput, Select } from "./Field";
 export { ProgressBar } from "./ProgressBar";

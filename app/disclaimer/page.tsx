@@ -1,3 +1,10 @@
+import {
+  Button,
+  Card,
+  Container,
+  Eyebrow,
+  PageHeading,
+} from "@/app/_components";
 import { acceptDisclaimer } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -14,20 +21,23 @@ export default async function DisclaimerPage({
       : "/quiz/1";
 
   return (
-    <main className="min-h-screen bg-stone-50 text-stone-900">
-      <section className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6 py-24">
-        <p className="text-xs uppercase tracking-[0.2em] text-stone-500">
-          VitaPath
-        </p>
-        <h1 className="mt-3 text-3xl">Before you start</h1>
-        <div
+    <main className="flex min-h-screen items-center py-16 md:py-24">
+      <Container as="section" className="max-w-xl">
+        <Eyebrow>VitaPath</Eyebrow>
+        <PageHeading className="mt-3">Before you start</PageHeading>
+
+        <Card
+          tone="sage"
           data-testid="disclaimer-body"
-          className="mt-6 space-y-4 rounded-3xl border border-stone-200 bg-white p-6 text-sm text-stone-700"
+          className="mt-8 space-y-4 text-sm text-ink-soft sm:text-base"
         >
           <p>
             VitaPath is a coursework project that produces general dietary
-            guidance. It is <strong>not medical advice</strong>, not a
-            diagnosis, and not a substitute for talking to a clinician.
+            guidance. It is{" "}
+            <strong className="font-semibold text-ink">
+              not medical advice
+            </strong>
+            , not a diagnosis, and not a substitute for talking to a clinician.
           </p>
           <p>
             Please consult a doctor or registered dietitian before starting,
@@ -39,18 +49,21 @@ export default async function DisclaimerPage({
             By continuing you acknowledge that you understand these limits and
             will not act on the recommendations without professional review.
           </p>
-        </div>
-        <form action={acceptDisclaimer} className="mt-6">
+        </Card>
+
+        <form action={acceptDisclaimer} className="mt-8">
           <input type="hidden" name="next" value={safeNext} />
-          <button
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             data-testid="disclaimer-accept"
-            className="w-full rounded-full bg-stone-900 px-6 py-3 text-sm font-medium text-stone-50 transition hover:bg-stone-700"
+            className="w-full sm:w-auto"
           >
             I understand — continue
-          </button>
+          </Button>
         </form>
-      </section>
+      </Container>
     </main>
   );
 }
