@@ -1,8 +1,12 @@
 import { cx } from "./_cx";
 import { ProgressBar } from "./ProgressBar";
 
-/** Quiz step indicator: progress bar + N dots that fill as steps complete +
- *  current step name underneath. Subtle, never garish. */
+/** Quiz step indicator: caption row + progress bar + N dots that fill as
+ *  steps complete + optional step name underneath. Subtle, never garish.
+ *
+ *  The "Step X of N" span carries data-testid="progress-step" because that
+ *  contract pre-dates the design refresh and is asserted by quiz.spec.ts.
+ *  The matching "stepper-name" testid sits on the optional step name. */
 export function Stepper({
   currentStep,
   totalSteps,
@@ -15,15 +19,18 @@ export function Stepper({
   className?: string;
 }) {
   const safeCurrent = Math.max(1, Math.min(totalSteps, currentStep));
+  const pct = totalSteps === 0 ? 0 : Math.round((safeCurrent / totalSteps) * 100);
 
   return (
     <div className={className}>
-      <ProgressBar
-        value={safeCurrent}
-        max={totalSteps}
-        showCaption
-        captionLeft={`Step ${safeCurrent} of ${totalSteps}`}
-      />
+      <div className="mb-2 flex items-baseline justify-between text-xs text-ink-muted">
+        <span data-testid="progress-step">
+          Step {safeCurrent} of {totalSteps}
+        </span>
+        <span>{pct}%</span>
+      </div>
+
+      <ProgressBar value={safeCurrent} max={totalSteps} />
 
       <div className="mt-3 flex items-center justify-center gap-2">
         {Array.from({ length: totalSteps }, (_, i) => {

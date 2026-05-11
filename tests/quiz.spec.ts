@@ -95,9 +95,10 @@ test.describe.serial("multi-step quiz", () => {
 
     // Step 5
     await page.selectOption('select[name="alcohol_per_week"]', "1-3");
-    // medications: none + ssri
+    // medications group: "none" is pre-checked which disables siblings
+    // (per brief §2.3 mutual-exclusion). Uncheck "none" first, then add ssri.
+    await page.locator('input[name="medications"][value="none"]').uncheck();
     await page.locator('input[name="medications"][value="ssri"]').check();
-    // (none is already pre-checked from default)
     await page.getByTestId("quiz-next").click();
 
     // After final submit, we navigate to /results
