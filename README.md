@@ -134,11 +134,48 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000      # production: your Vercel URL
 ### Production: Vercel
 
 1. Push this repo to GitHub.
-2. Import into Vercel → set the same env vars.
-3. Under **Authentication → URL Configuration** in Supabase:
-   - Site URL: `https://<your-vercel-domain>/`
-   - Redirect URLs: `https://<your-vercel-domain>/auth/callback`,
-     `http://localhost:3000/auth/callback`
+2. Import into Vercel.
+3. In Vercel → Settings → Environment Variables → **Production**, set
+   the same `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   and `SUPABASE_SERVICE_ROLE_KEY` values. Also set
+   `NEXT_PUBLIC_SITE_URL=https://<your-vercel-domain>` (no trailing
+   slash).
+
+### Magic-link auth configuration (Supabase dashboard)
+
+Without these dashboard steps, production emails will contain
+`http://localhost:3000` links because Supabase falls back to the
+project's Site URL whenever the calling code's `emailRedirectTo` is
+rejected. The login server action derives `emailRedirectTo` from the
+request `Origin` header (see `app/login/actions.ts`), so the dashboard
+just needs to allow that destination.
+
+1. Supabase Dashboard → **Authentication → URL Configuration**:
+   - **Site URL**: `https://<your-vercel-domain>` (the production
+     deployment, not localhost). This is what Supabase falls back to.
+   - **Redirect URLs**: add *both* of:
+     - `https://<your-vercel-domain>/auth/callback`
+     - `http://localhost:3000/auth/callback`
+     - any Vercel preview domains you care about, e.g.
+       `https://*.vercel.app/auth/callback` if your plan supports the
+       wildcard tier.
+2. Supabase Dashboard → **Authentication → Email Templates → Magic
+   Link**: replace the default plain-text body with the branded HTML
+   from [`docs/email-template.html`](./docs/email-template.html). The
+   template variable `{{ .ConfirmationURL }}` is substituted by Supabase
+   at send time. Repeat for *Confirm signup* if you use it.
+
+### Manual verification after auth config changes
+
+1. From the deployed Vercel domain, sign in. The email link must point
+   at `https://<your-vercel-domain>/auth/callback?...`, never
+   `localhost:3000`. Click it on a phone — should land signed in.
+2. From `npm run dev` (`localhost:3000`), sign in. The email link must
+   point at `http://localhost:3000/auth/callback?...`. Click it on the
+   same machine — should land signed in.
+3. From the deployed Vercel domain, sign in, then open the email on a
+   device that's *not* running the dev server. Should open the
+   production deployment, not error out.
 
 ## Spec-driven development
 
