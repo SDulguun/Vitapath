@@ -1,9 +1,10 @@
 "use client";
 
 import {
+  Area,
+  AreaChart,
   CartesianGrid,
-  Line,
-  LineChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -16,8 +17,15 @@ export type TrendPoint = {
   quiz_id: string;
 };
 
+const SAGE = "var(--color-sage)";
+const SAGE_SOFT = "var(--color-sage-soft)";
+const INK_MUTED = "var(--color-ink-muted)";
+
+/** Sage-toned area chart of the user's score over time. Strips Recharts'
+ *  default gridlines; the only reference is a faint horizontal line at the
+ *  scoring baseline (70). Hides the chart border per brief §2.6. */
 export function ScoreTrendChart({ points }: { points: TrendPoint[] }) {
-  // Recharts assumes a chronological X axis — reverse so oldest is first.
+  // Oldest → newest left-to-right.
   const data = [...points]
     .reverse()
     .map((p) => ({
@@ -30,45 +38,63 @@ export function ScoreTrendChart({ points }: { points: TrendPoint[] }) {
 
   return (
     <div
-      className="h-64 w-full rounded-3xl border border-stone-200 bg-white p-4"
+      className="h-64 w-full"
       data-testid="score-trend-chart"
+      aria-label="Score trend over time"
     >
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 16, right: 16, left: 0, bottom: 0 }}>
-          <CartesianGrid stroke="#e7e5e4" strokeDasharray="3 3" vertical={false} />
+        <AreaChart data={data} margin={{ top: 16, right: 16, left: 0, bottom: 0 }}>
+          <defs>
+            <linearGradient id="vp-trend-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={SAGE_SOFT} stopOpacity={0.6} />
+              <stop offset="100%" stopColor={SAGE_SOFT} stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid stroke="transparent" />
+          <ReferenceLine
+            y={70}
+            stroke={INK_MUTED}
+            strokeDasharray="3 4"
+            strokeOpacity={0.35}
+            ifOverflow="extendDomain"
+          />
           <XAxis
             dataKey="label"
-            stroke="#a8a29e"
+            stroke={INK_MUTED}
             fontSize={12}
             tickLine={false}
             axisLine={false}
           />
           <YAxis
             domain={[0, 100]}
-            stroke="#a8a29e"
+            stroke={INK_MUTED}
             fontSize={12}
             tickLine={false}
             axisLine={false}
             width={32}
           />
           <Tooltip
-            cursor={{ stroke: "#a8a29e", strokeDasharray: "3 3" }}
+            cursor={{ stroke: INK_MUTED, strokeDasharray: "3 3" }}
             contentStyle={{
               borderRadius: 12,
-              border: "1px solid #e7e5e4",
+              border: "1px solid var(--color-sage-soft)",
+              background: "var(--color-surface)",
               fontSize: 12,
+              color: "var(--color-ink)",
             }}
           />
-          <Line
+          <Area
             type="monotone"
             dataKey="score"
-            stroke="#1c1917"
+            stroke={SAGE}
             strokeWidth={2}
-            dot={{ r: 4, fill: "#1c1917" }}
-            activeDot={{ r: 6 }}
+            fill="url(#vp-trend-fill)"
+            fillOpacity={1}
+            dot={{ r: 3.5, fill: SAGE, strokeWidth: 0 }}
+            activeDot={{ r: 5, fill: SAGE, strokeWidth: 0 }}
             isAnimationActive={false}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

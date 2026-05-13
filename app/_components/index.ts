@@ -22,6 +22,7 @@ export { ScoreGauge, type ScoreContribution } from "./ScoreGauge";
 export { WarningCallouts } from "./WarningCallouts";
 export { BudgetBar } from "./BudgetBar";
 export { EvidenceList } from "./EvidenceList";
+export { ShareDialog } from "./ShareDialog";
 export { cx } from "./_cx";
 
 export {
