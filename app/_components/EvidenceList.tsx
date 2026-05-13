@@ -27,7 +27,7 @@ export function EvidenceList({
               href={`https://doi.org/${s.doi}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-ink underline decoration-sage decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-fast hover:decoration-2"
+              className="rounded-sm font-medium text-ink underline decoration-sage decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-fast hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage"
             >
               {s.title}
             </a>

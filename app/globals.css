@@ -71,6 +71,25 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Landing hero fade-up. Triggered by a `.vp-fade-up` class on any element;
+   the global prefers-reduced-motion damp below collapses the duration so
+   the element snaps into place for reduced-motion users (animation-fill-mode:
+   forwards keeps the end state). */
+@keyframes vp-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vp-fade-up {
+  animation: vp-fade-up var(--duration-slow) var(--ease-out-soft) both;
+}
+
 /* ScoreGauge — animates the SVG fill arc from 0 to its target on mount.
    The element sets `--target-offset` and `--track-length` as inline CSS
    variables (one per render); this keyframe animates the offset to the

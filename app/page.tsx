@@ -63,7 +63,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <Container as="div" className="relative pt-24 pb-20 md:pt-32 md:pb-28">
           <HeroLeaf />
-          <div className="relative max-w-2xl">
+          <div className="vp-fade-up relative max-w-2xl">
             <Eyebrow>VitaPath</Eyebrow>
             <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-ink sm:text-6xl md:text-7xl">
               Vitamins built around your day —{" "}
@@ -139,7 +139,7 @@ export default function Home() {
               href="https://github.com/SDulguun/Vitapath"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline-offset-4 hover:underline"
+              className="rounded-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage"
             >
               source on GitHub
             </a>
