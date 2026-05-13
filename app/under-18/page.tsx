@@ -1,6 +1,5 @@
-import Link from "next/link";
 import {
-  buttonClasses,
+  BackButton,
   Card,
   Container,
   Eyebrow,
@@ -28,10 +27,8 @@ export default function Under18Page() {
           </p>
         </Card>
 
-        <div className="mt-8">
-          <Link href="/" className={buttonClasses("secondary", "md")}>
-            Back to home
-          </Link>
+        <div className="mt-8 -ml-2">
+          <BackButton href="/">Back to home</BackButton>
         </div>
       </Container>
     </main>

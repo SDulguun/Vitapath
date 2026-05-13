@@ -1,4 +1,5 @@
 import {
+  BackButton,
   Button,
   Card,
   Container,
@@ -23,6 +24,9 @@ export default async function DisclaimerPage({
   return (
     <main className="flex min-h-screen items-center py-16 md:py-24">
       <Container as="section" className="max-w-xl">
+        <div className="mb-6 -ml-2">
+          <BackButton href="/">Back to home</BackButton>
+        </div>
         <Eyebrow>VitaPath</Eyebrow>
         <PageHeading className="mt-3">Before you start</PageHeading>
 

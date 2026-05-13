@@ -10,6 +10,7 @@ import {
   getPrimaryBrand,
 } from "@/lib/engine/alternatives";
 import {
+  BackButton,
   buttonClasses,
   Container,
   Eyebrow,
@@ -139,6 +140,7 @@ export function ResultsView({
             </>
           ) : (
             <>
+              <BackButton href="/">Back to home</BackButton>
               <Link
                 href="/quiz/1"
                 className={buttonClasses("ghost", "md")}

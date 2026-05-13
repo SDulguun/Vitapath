@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
+  BackButton,
   Button,
   buttonClasses,
   Card,
@@ -113,6 +114,9 @@ export default async function HistoryPage() {
   return (
     <main className="py-12 md:py-16">
       <Container as="section">
+        <div className="mb-6 -ml-2">
+          <BackButton href="/">Back to home</BackButton>
+        </div>
         <Eyebrow>VitaPath · History</Eyebrow>
         <PageHeading
           className="mt-3"
