@@ -71,6 +71,27 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* ScoreGauge — animates the SVG fill arc from 0 to its target on mount.
+   The element sets `--target-offset` and `--track-length` as inline CSS
+   variables (one per render); this keyframe animates the offset to the
+   target. `animation-fill-mode: forwards` keeps the end state, so the
+   reduced-motion safety net below — which collapses duration to 0.01ms —
+   still snaps to the right value. */
+@keyframes vp-score-fill {
+  from {
+    stroke-dashoffset: var(--track-length);
+  }
+  to {
+    stroke-dashoffset: var(--target-offset);
+  }
+}
+
+.vp-score-fill {
+  stroke-dasharray: var(--track-length);
+  stroke-dashoffset: var(--track-length);
+  animation: vp-score-fill 800ms var(--ease-out-soft) forwards;
+}
+
 /* Accessibility safety net: globally damp animation/transition for users who
    prefer reduced motion. Per-component motion (gauge fill, fade-up) will
    additionally guard their own keyframes — this is belt + braces. */

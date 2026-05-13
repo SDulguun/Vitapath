@@ -9,6 +9,7 @@ import {
   chooseAlternative,
   getPrimaryBrand,
 } from "@/lib/engine/alternatives";
+import { ScoreGauge } from "@/app/_components";
 import { RecCard } from "./RecCard";
 import { ShareButton } from "./ShareButton";
 
@@ -30,7 +31,6 @@ export function ResultsView({
   mode?: "personal" | "shared";
 }) {
   const { score, recommendations, warnings, taken_at } = results;
-  const scorePct = Math.max(0, Math.min(100, score.score));
   const taken = new Date(taken_at).toLocaleString();
 
   return (
@@ -43,58 +43,12 @@ export function ResultsView({
         <p className="mt-1 text-sm text-stone-500">Saved {taken}</p>
 
         {/* Score gauge */}
-        <div
-          data-testid="score-section"
-          className="mt-10 rounded-3xl border border-stone-200 bg-white p-8"
-        >
-          <div className="flex items-baseline justify-between">
-            <p className="text-sm font-medium text-stone-600">Health score</p>
-            <p className="text-xs text-stone-500">baseline {score.baseline}</p>
-          </div>
-          <div className="mt-3 flex items-baseline gap-3">
-            <p
-              data-testid="score-value"
-              className="text-6xl font-light tabular-nums"
-            >
-              {score.score}
-            </p>
-            <p className="text-sm text-stone-500">/ 100</p>
-          </div>
-          <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-stone-200">
-            <div
-              className="h-full bg-stone-900 transition-all"
-              style={{ width: `${scorePct}%` }}
-              aria-hidden
-            />
-          </div>
-
-          {score.contributions.length > 0 && (
-            <details className="mt-6 group" data-testid="score-contributions">
-              <summary className="cursor-pointer text-sm text-stone-600 hover:text-stone-900">
-                What moved your score? ({score.contributions.length})
-              </summary>
-              <ul className="mt-4 space-y-2">
-                {score.contributions.map((c) => (
-                  <li
-                    key={c.rule_id}
-                    className="flex items-center justify-between rounded-xl border border-stone-200 bg-stone-50 px-4 py-2 text-sm"
-                  >
-                    <span>{c.label}</span>
-                    <span
-                      className={
-                        c.delta > 0
-                          ? "font-medium tabular-nums text-emerald-700"
-                          : "font-medium tabular-nums text-red-700"
-                      }
-                    >
-                      {c.delta > 0 ? "+" : ""}
-                      {c.delta}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          )}
+        <div className="mt-10">
+          <ScoreGauge
+            score={score.score}
+            baseline={score.baseline}
+            contributions={score.contributions}
+          />
         </div>
 
         {/* Warnings */}

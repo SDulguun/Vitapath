@@ -18,6 +18,7 @@ export { Field, TextInput, Select } from "./Field";
 export { ProgressBar } from "./ProgressBar";
 export { Stepper } from "./Stepper";
 export { Disclosure } from "./Disclosure";
+export { ScoreGauge, type ScoreContribution } from "./ScoreGauge";
 export { cx } from "./_cx";
 
 export {
