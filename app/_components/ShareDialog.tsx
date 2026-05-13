@@ -130,15 +130,15 @@ export function ShareDialog({
         >
           <p className="font-medium">Link revoked.</p>
           <p className="mt-1 text-ink-soft">
-            This link no longer works — anyone who saved it will see the
+            This link no longer works. Anyone who saved it will see the
             expired state.
           </p>
         </div>
       ) : (
         <>
           <p className="mt-4 text-sm text-ink-soft">
-            Anyone with this link can see your stack — but not edit it.
-            They&apos;ll see a banner explaining it&apos;s a shared view.
+            Anyone with this link can view your stack. It&apos;s read-only,
+            and they&apos;ll see a banner explaining the shared view.
           </p>
 
           <div

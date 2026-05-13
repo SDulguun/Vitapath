@@ -19,9 +19,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "VitaPath — Vitamins built around your day",
+  title: "VitaPath · Vitamins that fit your day",
   description:
-    "A short quiz, an explainable health score, and supplement picks cited against real evidence — with warnings before they collide with your medications.",
+    "A short quiz, an explainable health score, and supplement picks backed by real studies. VitaPath flags interactions before they happen.",
 };
 
 export default function RootLayout({

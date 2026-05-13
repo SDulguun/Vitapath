@@ -288,7 +288,7 @@ function Step1({ draft }: { draft: DraftAnswers }) {
       <Field
         label="Pregnancy status"
         htmlFor="pregnancy_status"
-        helper="Used for safety gating — pregnancy excludes some supplements entirely."
+        helper="Used for safety gating. Pregnancy excludes some supplements entirely."
       >
         <Select
           id="pregnancy_status"

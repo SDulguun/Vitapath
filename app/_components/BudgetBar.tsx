@@ -88,7 +88,7 @@ export function BudgetBar({
           className="basis-full text-xs text-terracotta"
           data-testid="budget-over"
         >
-          Over budget by {usd(overBy)} — toggle &lsquo;cheaper picks&rsquo;{" "}
+          Over budget by {usd(overBy)}. Toggle &lsquo;cheaper picks&rsquo;{" "}
           to bring it under.
         </p>
       )}
