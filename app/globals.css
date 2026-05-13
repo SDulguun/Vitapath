@@ -1,36 +1,37 @@
 @import "tailwindcss";
 
-/* ─── Design tokens ──────────────────────────────────────────────────────
-   Phase 1 — declarative-only. Nothing in the app references these yet; the
-   primitive components landing in phase 2 (`feat/component-library`) will.
-   Keep this block as the single source of truth for the design system.
+/* ─── Design tokens (v2) ──────────────────────────────────────────────────
+   Deeper ink + sage values so body text passes WCAG-AA on the cream
+   background and primary buttons hold their presence. See the v2 brief
+   §1.1 for the source-of-truth palette. Keep this @theme block as the
+   single source of truth — replace any ad-hoc hex elsewhere.
    ──────────────────────────────────────────────────────────────────── */
 @theme {
   /* Surfaces */
-  --color-bg:            #FAF7F2;  /* warm cream, page background */
+  --color-bg:            #F7F3EB;  /* warm cream, page background */
   --color-surface:       #FFFFFF;  /* cards */
-  --color-surface-soft:  #F2EDE5;  /* sunken sections, code-like blocks */
-  --color-surface-sage:  #EEF3EC;  /* tinted surface for "score" / hero zones */
+  --color-surface-soft:  #EEE8DC;  /* sunken sections, code-like blocks */
+  --color-surface-sage:  #E4EEE6;  /* tinted surface for hero / score zones */
 
-  /* Ink (text) */
-  --color-ink:           #1F2D24;  /* deep forest, headings + primary text */
-  --color-ink-soft:      #4A5A50;  /* secondary text */
-  --color-ink-muted:     #8A9A8F;  /* tertiary, captions, eyebrows */
+  /* Ink (text) — bumped contrast for readability */
+  --color-ink:           #14201A;  /* near-black forest, headings + primary text */
+  --color-ink-soft:      #354539;  /* secondary text, passes 7:1 on cream */
+  --color-ink-muted:     #677669;  /* tertiary, passes 4.5:1 — never go lighter */
 
-  /* Brand sage */
-  --color-sage:          #6F8F7A;  /* primary action, accents */
-  --color-sage-deep:     #54725F;  /* hover/pressed */
-  --color-sage-soft:     #DDE7DF;  /* chips, subtle highlights */
+  /* Brand sage — deeper for stronger button presence */
+  --color-sage:          #5A8068;  /* primary action, accents */
+  --color-sage-deep:     #3D5E48;  /* hover/pressed */
+  --color-sage-soft:     #D5E2D8;  /* chips, subtle highlights */
 
   /* Semantic */
-  --color-terracotta:      #C2735A;  /* warnings (medium severity) */
-  --color-terracotta-soft: #F4E1D8;
-  --color-amber:           #C99858;  /* caution */
-  --color-amber-soft:      #F5E8D3;
-  --color-rose:            #A24D4D;  /* high-severity / critical */
-  --color-rose-soft:       #F1DADA;
-  --color-evidence:        #5C7A93;  /* "evidence" cool accent */
-  --color-evidence-soft:   #DDE6EE;
+  --color-terracotta:      #B8654B;  /* warnings (medium severity) */
+  --color-terracotta-soft: #F2DAD0;
+  --color-amber:           #B8854A;  /* caution */
+  --color-amber-soft:      #F3E3CA;
+  --color-rose:            #963F3F;  /* high-severity / critical */
+  --color-rose-soft:       #EFD2D2;
+  --color-evidence:        #4E6F89;  /* "evidence" cool accent */
+  --color-evidence-soft:   #D8E3ED;
 
   /* Radii */
   --radius-sm:   6px;
@@ -39,10 +40,10 @@
   --radius-xl:   28px;
   --radius-pill: 999px;
 
-  /* Shadows — soft, never harsh */
-  --shadow-sm: 0 1px 2px rgba(31, 45, 36, 0.04), 0 1px 3px rgba(31, 45, 36, 0.06);
-  --shadow-md: 0 4px 12px rgba(31, 45, 36, 0.06), 0 2px 4px rgba(31, 45, 36, 0.04);
-  --shadow-lg: 0 12px 32px rgba(31, 45, 36, 0.08), 0 4px 8px rgba(31, 45, 36, 0.04);
+  /* Shadows — soft, never harsh; tinted with --color-ink (20,32,26 = #14201A) */
+  --shadow-sm: 0 1px 2px rgba(20, 32, 26, 0.04), 0 1px 3px rgba(20, 32, 26, 0.06);
+  --shadow-md: 0 4px 12px rgba(20, 32, 26, 0.06), 0 2px 4px rgba(20, 32, 26, 0.04);
+  --shadow-lg: 0 12px 32px rgba(20, 32, 26, 0.08), 0 4px 8px rgba(20, 32, 26, 0.04);
 
   /* Motion */
   --ease-out-soft:  cubic-bezier(0.22, 1, 0.36, 1);
@@ -52,29 +53,69 @@
 }
 
 /* Wire next/font CSS variables (set on <html> in app/layout.tsx) into the
-   theme. We use `@theme inline` so the resolved utility CSS reads
-   `font-family: var(--font-fraunces), …` rather than re-emitting a layer of
-   indirection through `--font-serif`. */
+   theme. `@theme inline` resolves utilities to `font-family: var(--font-fraunces), …`
+   directly rather than emitting another layer of indirection through
+   `--font-serif`. */
 @theme inline {
   --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-sans:  var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-/* Body defaults — the only visual change in this phase. Existing pages still
-   set their own bg/text via Tailwind utilities so they keep their current
-   look until phases 3+ refactor them. */
+/* ─── Base typography (v2 §1.5) ───────────────────────────────────────────
+   Set on plain HTML elements only. Components that use Tailwind text-*
+   utilities still override these — the base just gives an unstyled <p> or
+   <h1> a sensible default so a stray element doesn't render at 16px. */
 body {
   background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+@media (min-width: 640px) {
+  body {
+    font-size: 18px;
+  }
+}
 
-/* Landing hero fade-up. Triggered by a `.vp-fade-up` class on any element;
-   the global prefers-reduced-motion damp below collapses the duration so
-   the element snaps into place for reduced-motion users (animation-fill-mode:
-   forwards keeps the end state). */
+h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 5vw, 68px);
+  line-height: 1.08;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.2vw, 38px);
+  line-height: 1.15;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+h3 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* Form / UI labels share the 16px ground state; explicit Tailwind classes
+   on Field still win where they're applied. */
+label,
+button,
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* ─── Motion: hero fade-up ───────────────────────────────────────────────
+   Applied via `.vp-fade-up` on the landing hero block. The global
+   prefers-reduced-motion damp at the bottom collapses the duration to
+   0.01ms; `forwards` keeps the end state, so the element snaps in place. */
 @keyframes vp-fade-up {
   from {
     opacity: 0;
@@ -90,12 +131,11 @@ body {
   animation: vp-fade-up var(--duration-slow) var(--ease-out-soft) both;
 }
 
-/* ScoreGauge — animates the SVG fill arc from 0 to its target on mount.
-   The element sets `--target-offset` and `--track-length` as inline CSS
-   variables (one per render); this keyframe animates the offset to the
-   target. `animation-fill-mode: forwards` keeps the end state, so the
-   reduced-motion safety net below — which collapses duration to 0.01ms —
-   still snaps to the right value. */
+/* ─── Motion: ScoreGauge fill ────────────────────────────────────────────
+   Element sets `--target-offset` and `--track-length` as inline CSS
+   variables (one pair per render); this keyframe animates the offset to
+   the target. `animation-fill-mode: forwards` keeps the end state so the
+   reduced-motion damp below visually snaps to the correct value. */
 @keyframes vp-score-fill {
   from {
     stroke-dashoffset: var(--track-length);
@@ -111,9 +151,23 @@ body {
   animation: vp-score-fill 800ms var(--ease-out-soft) forwards;
 }
 
-/* Accessibility safety net: globally damp animation/transition for users who
-   prefer reduced motion. Per-component motion (gauge fill, fade-up) will
-   additionally guard their own keyframes — this is belt + braces. */
+/* ─── Motion: sign-in envelope bob ───────────────────────────────────────
+   3s ease-in-out infinite, 3px translateY. Subtle idle motion for the
+   login page's icon (§2.3). Reduced motion damps to 0.01ms via the global
+   override — so reduced-motion users see a static icon. */
+@keyframes vp-envelope-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+.vp-envelope-bob {
+  animation: vp-envelope-bob 3s ease-in-out infinite;
+}
+
+/* Accessibility safety net: globally damp animation/transition for users
+   who prefer reduced motion. Per-component motion (gauge fill, fade-up,
+   envelope bob) additionally guards its own keyframes — this is belt +
+   braces. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
