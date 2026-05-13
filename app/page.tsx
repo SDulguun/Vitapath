@@ -10,9 +10,9 @@ import {
   SectionHeading,
 } from "./_components";
 
-/* Decorative botanical motif — sage leaf behind the hero. Aria-hidden,
-   pointer-events disabled, very low opacity per §1.4 ("subtle, not
-   wellness-blog garish"). */
+/* Decorative botanical motif: sage leaf behind the hero. Aria-hidden,
+   pointer-events disabled, very low opacity per §1.4 (subtle, not
+   wellness-blog garish). */
 function HeroLeaf() {
   return (
     <svg
@@ -42,17 +42,17 @@ const HOW_STEPS = [
   {
     Icon: CheckIcon,
     title: "Answer 5 short prompts",
-    body: "Diet, sleep, stress, lifestyle, medications. About two minutes — no account needed to start.",
+    body: "Five steps, about two minutes. No account needed to start.",
   },
   {
     Icon: InfoCircleIcon,
     title: "See your score and what moved it",
-    body: "An explainable health score with the contributions that pushed it up or down — no black box.",
+    body: "An explainable health score with every contribution surfaced. Every input is shown.",
   },
   {
     Icon: BookmarkIcon,
-    title: "Get evidence-cited picks with cheaper alternatives",
-    body: "Each recommendation cites the study behind it and shows a budget-friendly brand if one meets the dose.",
+    title: "Get cited picks with cheaper alternatives",
+    body: "Each recommendation cites the study behind it. Real studies, real prices.",
   },
 ];
 
@@ -66,13 +66,12 @@ export default function Home() {
           <div className="vp-fade-up relative max-w-2xl">
             <Eyebrow>VitaPath</Eyebrow>
             <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              Vitamins built around your day —{" "}
-              <span className="italic">not</span> a marketing funnel.
+              Vitamins that <span className="italic">fit</span> your day.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-ink-soft sm:text-xl">
-              A short quiz, an explainable score, and supplement picks cited
-              against real evidence — with safety flags before they collide
-              with your medications.
+              A short quiz, an explainable health score, and supplement picks
+              backed by real studies. We flag interactions before they
+              happen.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -124,24 +123,24 @@ export default function Home() {
           </ol>
           <p className="mt-12 max-w-xl text-sm text-ink-soft">
             VitaPath is a coursework project, not medical advice. Results are
-            general dietary guidance — please talk to a clinician before
+            general dietary guidance. Please talk to a clinician before
             starting, stopping, or combining any supplement.
           </p>
         </Container>
       </section>
 
-      {/* Footer */}
+      {/* Footer — small legal print only; the AUM tagline is gone per
+          v2 §1.0. A plain "Source on GitHub" text link is allowed. */}
       <footer className="py-10">
         <Container>
           <p className="text-center text-xs text-ink-muted">
-            VitaPath · AUM AI Agentic capstone, Spring 2026 ·{" "}
             <a
               href="https://github.com/SDulguun/Vitapath"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage"
             >
-              source on GitHub
+              Source on GitHub
             </a>
           </p>
         </Container>

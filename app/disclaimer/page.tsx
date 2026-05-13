@@ -41,9 +41,9 @@ export default async function DisclaimerPage({
           </p>
           <p>
             Please consult a doctor or registered dietitian before starting,
-            stopping, or combining any supplement — especially if you take
-            prescription medication, have a medical condition, are pregnant,
-            or are nursing.
+            stopping, or combining any supplement. This matters most if you
+            take prescription medication, have a medical condition, are
+            pregnant, or are nursing.
           </p>
           <p>
             By continuing you acknowledge that you understand these limits and
@@ -60,7 +60,7 @@ export default async function DisclaimerPage({
             data-testid="disclaimer-accept"
             className="w-full sm:w-auto"
           >
-            I understand — continue
+            I understand, continue
           </Button>
         </form>
       </Container>
