@@ -19,6 +19,7 @@ export { ProgressBar } from "./ProgressBar";
 export { Stepper } from "./Stepper";
 export { Disclosure } from "./Disclosure";
 export { ScoreGauge, type ScoreContribution } from "./ScoreGauge";
+export { WarningCallouts } from "./WarningCallouts";
 export { cx } from "./_cx";
 
 export {

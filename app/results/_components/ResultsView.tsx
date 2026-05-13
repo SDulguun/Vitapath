@@ -9,15 +9,9 @@ import {
   chooseAlternative,
   getPrimaryBrand,
 } from "@/lib/engine/alternatives";
-import { ScoreGauge } from "@/app/_components";
+import { ScoreGauge, WarningCallouts } from "@/app/_components";
 import { RecCard } from "./RecCard";
 import { ShareButton } from "./ShareButton";
-
-const sevTone: Record<string, string> = {
-  high: "border-red-300 bg-red-50 text-red-900",
-  moderate: "border-amber-300 bg-amber-50 text-amber-900",
-  low: "border-stone-300 bg-stone-50 text-stone-700",
-};
 
 export function ResultsView({
   results,
@@ -51,24 +45,15 @@ export function ResultsView({
           />
         </div>
 
-        {/* Warnings */}
+        {/* Warnings — surfaces the interaction engine output. Severity-tinted
+            cards with icons, grouped + sorted high→low, with the removed
+            supplement chip when applicable. */}
         {warnings.length > 0 && (
-          <div data-testid="warnings-section" className="mt-10 space-y-3">
-            <h2 className="text-xs uppercase tracking-[0.2em] text-stone-500">
-              Heads-up
-            </h2>
-            {warnings.map((w) => (
-              <div
-                key={w.id}
-                data-testid={`warning-${w.kind}`}
-                className={`rounded-xl border px-4 py-3 text-sm ${sevTone[w.severity] ?? sevTone.low}`}
-              >
-                <p className="font-medium uppercase tracking-wider text-xs">
-                  {w.severity}
-                </p>
-                <p className="mt-1">{w.message}</p>
-              </div>
-            ))}
+          <div className="mt-10">
+            <WarningCallouts
+              warnings={warnings}
+              resolveSupplementName={(slug) => getSupplement(slug)?.name}
+            />
           </div>
         )}
 
