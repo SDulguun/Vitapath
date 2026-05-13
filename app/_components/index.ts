@@ -13,6 +13,8 @@ export {
   type ButtonVariant,
   type ButtonSize,
 } from "./Button";
+export { BackButton } from "./BackButton";
+export { Spinner } from "./Spinner";
 export { Card, type CardTone } from "./Card";
 export { Field, TextInput, Select } from "./Field";
 export { ProgressBar } from "./ProgressBar";
@@ -30,10 +32,14 @@ export {
   ChevronDownIcon,
   ChevronLeftIcon,
   CheckIcon,
+  CheckCircleIcon,
   AlertTriangleIcon,
   AlertCircleIcon,
   InfoCircleIcon,
   BookmarkIcon,
   ShareIcon,
   CopyIcon,
+  EnvelopeIcon,
+  SparkleIcon,
+  SprigIcon,
 } from "./icons";

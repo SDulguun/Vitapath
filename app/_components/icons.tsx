@@ -117,3 +117,51 @@ export function CopyIcon(props: SVGProps<SVGSVGElement>) {
     </Icon>
   );
 }
+
+export function CheckCircleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <circle cx={12} cy={12} r={9} />
+      <path d="m8 12 3 3 5-6" />
+    </Icon>
+  );
+}
+
+export function EnvelopeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <rect x={3} y={5} width={18} height={14} rx={2} />
+      <path d="m3 7 8.4 5.6a1.2 1.2 0 0 0 1.2 0L21 7" />
+    </Icon>
+  );
+}
+
+export function SparkleIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M12 3v4" />
+      <path d="M12 17v4" />
+      <path d="M3 12h4" />
+      <path d="M17 12h4" />
+      <path d="m5.5 5.5 2.8 2.8" />
+      <path d="m15.7 15.7 2.8 2.8" />
+      <path d="m5.5 18.5 2.8-2.8" />
+      <path d="m15.7 8.3 2.8-2.8" />
+    </Icon>
+  );
+}
+
+/** Decorative botanical: a sage sprig with a central stem and three paired
+ *  leaves. Use as a section divider (§1.4) — keep small (size-4 / size-5)
+ *  and `text-sage-soft` or `text-sage`. */
+export function SprigIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M12 4v16" />
+      <path d="M12 9c-2-.5-3.5-1.5-4-3.5 2 0 3.5 1 4 3.5Z" />
+      <path d="M12 9c2-.5 3.5-1.5 4-3.5-2 0-3.5 1-4 3.5Z" />
+      <path d="M12 14c-2-.5-3.5-1.5-4-3.5 2 0 3.5 1 4 3.5Z" />
+      <path d="M12 14c2-.5 3.5-1.5 4-3.5-2 0-3.5 1-4 3.5Z" />
+    </Icon>
+  );
+}
