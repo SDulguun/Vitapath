@@ -10,6 +10,8 @@ type Common = {
   className?: string;
   /** Visual size of the underlying Button. Defaults to "md". */
   size?: "md" | "lg";
+  /** Test selector hook — forwarded to the rendered element. */
+  "data-testid"?: string;
 };
 
 type AsLink = Common & {
@@ -30,7 +32,12 @@ type AsButton = Common & {
  *  signatures are mutually exclusive at the type level so you can't
  *  accidentally pass both. */
 export function BackButton(props: AsLink | AsButton) {
-  const { children = "Back", className, size = "md" } = props;
+  const {
+    children = "Back",
+    className,
+    size = "md",
+    "data-testid": testId,
+  } = props;
   const classes = cx(
     buttonClasses("ghost", size),
     "group gap-1.5",
@@ -48,7 +55,7 @@ export function BackButton(props: AsLink | AsButton) {
 
   if ("href" in props && props.href) {
     return (
-      <Link href={props.href} className={classes}>
+      <Link href={props.href} className={classes} data-testid={testId}>
         {inner}
       </Link>
     );
@@ -59,6 +66,7 @@ export function BackButton(props: AsLink | AsButton) {
       type="button"
       onClick={(props as AsButton).onClick}
       className={classes}
+      data-testid={testId}
     >
       {inner}
     </button>

@@ -8,9 +8,9 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import {
+  BackButton,
   Button,
   Card,
-  ChevronLeftIcon,
   Container,
   Eyebrow,
   Field,
@@ -216,19 +216,18 @@ export function QuizStep({ step }: { step: number }) {
               </p>
             )}
 
-            <div className="flex items-center justify-between gap-3 pt-2">
+            {/* Action row. On mobile: stacks vertically with the primary
+                CTA on top (flex-col-reverse). On sm+: side-by-side with
+                Back left, primary right. Per v2 §2.4. */}
+            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
               {step > 1 ? (
-                <Button
-                  variant="ghost"
+                <BackButton
                   onClick={() => router.push(`/quiz/${step - 1}`)}
                   data-testid="quiz-back"
-                  className="-ml-2"
-                >
-                  <ChevronLeftIcon className="size-4" aria-hidden />
-                  Back
-                </Button>
+                  className="self-start -ml-2 sm:self-auto"
+                />
               ) : (
-                <span />
+                <span className="hidden sm:block" />
               )}
               <Button
                 type="submit"
@@ -236,6 +235,7 @@ export function QuizStep({ step }: { step: number }) {
                 size="lg"
                 disabled={pending}
                 data-testid="quiz-next"
+                className="w-full sm:w-auto"
               >
                 {isFinal ? (pending ? "Saving…" : "See results") : "Continue"}
               </Button>
