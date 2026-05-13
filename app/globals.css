@@ -164,6 +164,19 @@ textarea {
   animation: vp-envelope-bob 3s ease-in-out infinite;
 }
 
+/* ─── Motion: short fade-in ──────────────────────────────────────────────
+   Used by the sign-in success card to soften the transition from form to
+   "Check your email" state. 200ms is intentionally fast so users feel the
+   server-action latency, not the visual transition. */
+@keyframes vp-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.vp-fade-in {
+  animation: vp-fade-in 200ms var(--ease-out-soft) both;
+}
+
 /* Accessibility safety net: globally damp animation/transition for users
    who prefer reduced motion. Per-component motion (gauge fill, fade-up,
    envelope bob) additionally guards its own keyframes — this is belt +

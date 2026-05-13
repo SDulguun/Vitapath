@@ -42,8 +42,9 @@ test.describe.serial("magic-link auth round-trip", () => {
   test("login page renders the magic-link form", async ({ page }) => {
     await page.goto("/login");
     await expect(page.getByPlaceholder("you@example.com")).toBeVisible();
+    // v2 §2.3 renamed the CTA from "Send magic link" → "Send sign-in link".
     await expect(
-      page.getByRole("button", { name: "Send magic link" }),
+      page.getByRole("button", { name: "Send sign-in link" }),
     ).toBeVisible();
   });
 
