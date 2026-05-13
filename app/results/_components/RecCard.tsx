@@ -1,22 +1,32 @@
 "use client";
 
-import { useState } from "react";
 import type { Brand } from "@/lib/engine/schemas";
 import type { ResultsRecommendation } from "@/lib/results/data";
 
 const usd = (n: number) => `$${n.toFixed(2)}`;
 
+/** Controlled recommendation card. Alternative-toggle state is owned by
+ *  <ResultsInteractive> so the budget bar's bulk "cheaper picks" toggle
+ *  can override individual cards (and vice versa). Phase 8 restyles the
+ *  inner layout; here we only thread the controlled props through.
+ *
+ *  Note: the data-testid contracts (rec-{slug}, brand-name-{slug},
+ *  brand-price-{slug}, toggle-alt-{slug}, evidence-{slug}) are stable —
+ *  tests/results.spec.ts and any future spec relies on them. */
 export function RecCard({
   rec,
   primary,
   alternative,
+  showAlternative,
+  onToggleAlternative,
 }: {
   rec: ResultsRecommendation;
   primary: Brand;
   alternative: Brand | null;
+  showAlternative: boolean;
+  onToggleAlternative: () => void;
 }) {
-  const [showAlt, setShowAlt] = useState(false);
-  const active = showAlt && alternative ? alternative : primary;
+  const active = showAlternative && alternative ? alternative : primary;
   const savings = alternative
     ? primary.price_usd_per_month - alternative.price_usd_per_month
     : 0;
@@ -50,11 +60,11 @@ export function RecCard({
         {alternative && (
           <button
             type="button"
-            onClick={() => setShowAlt((s) => !s)}
+            onClick={onToggleAlternative}
             data-testid={`toggle-alt-${rec.supplement_slug}`}
             className="rounded-full border border-stone-300 bg-white px-3 py-1.5 text-xs font-medium text-stone-700 transition hover:border-stone-500"
           >
-            {showAlt
+            {showAlternative
               ? "Switch back to recommended"
               : `See cheaper alternative (save ${usd(savings)}/mo)`}
           </button>

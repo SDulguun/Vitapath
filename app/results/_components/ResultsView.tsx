@@ -10,7 +10,7 @@ import {
   getPrimaryBrand,
 } from "@/lib/engine/alternatives";
 import { ScoreGauge, WarningCallouts } from "@/app/_components";
-import { RecCard } from "./RecCard";
+import { ResultsInteractive, type RecRow } from "./ResultsInteractive";
 import { ShareButton } from "./ShareButton";
 
 export function ResultsView({
@@ -57,7 +57,7 @@ export function ResultsView({
           </div>
         )}
 
-        {/* Recommendations */}
+        {/* Recommendations + BudgetBar (interactive client island) */}
         <div className="mt-10">
           <h2 className="text-xs uppercase tracking-[0.2em] text-stone-500">
             Recommendations ({recommendations.length})
@@ -68,22 +68,24 @@ export function ResultsView({
               well-covered.
             </p>
           ) : (
-            <ul className="mt-4 space-y-4" data-testid="rec-list">
-              {recommendations.map((r) => {
+            (() => {
+              const rows: RecRow[] = [];
+              for (const r of recommendations) {
                 const supp = getSupplement(r.supplement_slug);
                 const primary = supp ? getPrimaryBrand(supp) : null;
-                const alternative = supp ? chooseAlternative(supp) : null;
-                if (!primary) return null;
-                return (
-                  <RecCard
-                    key={r.supplement_slug}
-                    rec={r}
-                    primary={primary}
-                    alternative={alternative}
-                  />
-                );
-              })}
-            </ul>
+                if (!supp || !primary) continue;
+                rows.push({
+                  rec: r,
+                  primary,
+                  alternative: chooseAlternative(supp),
+                });
+              }
+              return (
+                <div className="mt-4">
+                  <ResultsInteractive rows={rows} />
+                </div>
+              );
+            })()
           )}
         </div>
 

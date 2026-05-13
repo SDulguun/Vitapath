@@ -20,6 +20,7 @@ export { Stepper } from "./Stepper";
 export { Disclosure } from "./Disclosure";
 export { ScoreGauge, type ScoreContribution } from "./ScoreGauge";
 export { WarningCallouts } from "./WarningCallouts";
+export { BudgetBar } from "./BudgetBar";
 export { cx } from "./_cx";
 
 export {
