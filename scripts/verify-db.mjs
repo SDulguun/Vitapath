@@ -39,7 +39,14 @@ const supabase = createClient(url, serviceKey, {
 });
 
 const expected = {
-  tables: ["profiles", "quizzes", "recommendations", "share_tokens"],
+  tables: [
+    "profiles",
+    "quizzes",
+    "recommendations",
+    "share_tokens",
+    // Migration 0003 adds the rec_explanations cache table.
+    "rec_explanations",
+  ],
   policyCounts: {
     profiles: 3,
     quizzes: 2,
@@ -47,6 +54,8 @@ const expected = {
     // Migration 0002 added share_tokens_self_delete on top of the
     // _self_select + _self_insert policies from 0001.
     share_tokens: 3,
+    // Migration 0003 added two policies: _self_select + _self_insert.
+    rec_explanations: 2,
   },
 };
 

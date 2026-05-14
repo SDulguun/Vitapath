@@ -25,12 +25,16 @@ export type RecRow = {
 export function ResultsInteractive({
   rows,
   initialBudget,
+  quizId,
 }: {
   rows: RecRow[];
   /** Server-resolved budget (e.g. from a ?budget=NN search param). The
    *  client also tries to read localStorage on mount and applies that
    *  value if it's a stricter user preference. */
   initialBudget?: number;
+  /** Owner's quiz id. When provided, each RecCard renders the
+   *  "Why this for me?" expander. Omitted on /r/[token] shared view. */
+  quizId?: string;
 }) {
   const [overrides, setOverrides] = useState<Record<string, boolean>>({});
   const [cheaperPicks, setCheaperPicks] = useState(false);
@@ -115,6 +119,7 @@ export function ResultsInteractive({
             onToggleAlternative={() =>
               toggleRow(rec.supplement_slug, alternative !== null)
             }
+            quizId={quizId}
           />
         ))}
       </ul>

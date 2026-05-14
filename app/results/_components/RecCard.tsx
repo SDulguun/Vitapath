@@ -3,6 +3,7 @@
 import { Button, EvidenceList, SprigIcon } from "@/app/_components";
 import type { Brand } from "@/lib/engine/schemas";
 import type { ResultsRecommendation } from "@/lib/results/data";
+import { RecCardExplain } from "./RecCardExplain";
 
 const usd = (n: number) => `$${n.toFixed(2)}`;
 
@@ -42,12 +43,16 @@ export function RecCard({
   alternative,
   showAlternative,
   onToggleAlternative,
+  quizId,
 }: {
   rec: ResultsRecommendation;
   primary: Brand;
   alternative: Brand | null;
   showAlternative: boolean;
   onToggleAlternative: () => void;
+  /** When set, render the "Why this for me?" expander. Omitted on
+   *  the shared /r/[token] view where the viewer is anonymous. */
+  quizId?: string;
 }) {
   const active = showAlternative && alternative ? alternative : primary;
   const savings = alternative
@@ -142,6 +147,14 @@ export function RecCard({
           </p>
           <EvidenceList studies={rec.evidence} />
         </div>
+      )}
+
+      {/* LLM "Why this for me?" expander — owner-only */}
+      {quizId && (
+        <RecCardExplain
+          quizId={quizId}
+          supplementSlug={rec.supplement_slug}
+        />
       )}
     </li>
   );

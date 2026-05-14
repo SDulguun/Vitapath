@@ -366,6 +366,23 @@
         ]
       },
       "status": "passed"
+    },
+    {
+      "id": "22",
+      "goal": "LLM 'Why this for me?' expander on each RecCard. Server action lib/explain/actions.ts re-fetches the quiz from Supabase (RLS-scoped), rebuilds the recommendation via the pure engine, calls Groq llama-3.3-70b-versatile through groq-sdk, and caches the 2-sentence response in public.rec_explanations (migration 0003). RecCardExplain client component renders a disclosure under the Evidence section; quizId is threaded from ResultsView through ResultsInteractive only in mode=personal so the shared /r/[token] view stays anonymous. Voice rules baked into the system prompt.",
+      "depends_on": ["18"],
+      "verification": {
+        "type": "command",
+        "command": "npm run lint && npm run build && npm test && npm run audit:voice",
+        "checklist": [
+          "supabase/migrations/0003_rec_explanations.sql applied; npm run verify:db sees 5 tables + rec_explanations: 2 policies",
+          "GROQ_API_KEY present in .env.local and Vercel production",
+          "RecCard renders the expander only when quizId is provided",
+          "First click triggers server action; subsequent opens reuse the cached row from rec_explanations",
+          "45/45 vitest, lint + build + audit:voice clean"
+        ]
+      },
+      "status": "passed"
     }
   ],
   "definition_of_done": [

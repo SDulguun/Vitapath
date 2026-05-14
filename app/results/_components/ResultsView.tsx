@@ -103,7 +103,10 @@ export function ResultsView({
               }
               return (
                 <div className="mt-6">
-                  <ResultsInteractive rows={rows} />
+                  <ResultsInteractive
+                    rows={rows}
+                    quizId={mode === "personal" ? results.quiz_id : undefined}
+                  />
                 </div>
               );
             })()
