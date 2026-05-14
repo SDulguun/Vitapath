@@ -281,6 +281,24 @@
         ]
       },
       "status": "passed"
+    },
+    {
+      "id": "17",
+      "goal": "UX polish pass: Next.js loading.tsx skeletons for /results and /history that mirror the real page layout (rounded score placeholder, three placeholder rec cards, placeholder history rows) so the streaming wait feels intentional; RecCard gains a subtle hover lift (translate-y-0.5 + shadow-md + sage border) gated by motion-reduce. Reuses existing tokens (duration-fast, ease-out-soft, surface-soft).",
+      "depends_on": ["16"],
+      "verification": {
+        "type": "command",
+        "command": "npm run lint && npm run build && npm test && npm run test:e2e",
+        "checklist": [
+          "app/results/loading.tsx and app/history/loading.tsx exist and render shape placeholders",
+          "RecCard has hover:-translate-y-0.5 + hover:shadow-md + motion-reduce:transform-none",
+          "Loading skeletons include aria-live polite status for screen readers",
+          "45/45 vitest passing",
+          "14/14 e2e passing — no test contract drift",
+          "npm run lint clean, npm run build clean"
+        ]
+      },
+      "status": "passed"
     }
   ],
   "definition_of_done": [

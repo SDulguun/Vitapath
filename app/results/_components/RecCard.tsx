@@ -58,7 +58,7 @@ export function RecCard({
   return (
     <li
       data-testid={`rec-${rec.supplement_slug}`}
-      className="rounded-lg border border-sage-soft/60 bg-surface p-6 shadow-sm"
+      className="rounded-lg border border-sage-soft/60 bg-surface p-6 shadow-sm transition-all duration-fast ease-out-soft hover:-translate-y-0.5 hover:border-sage/60 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none"
     >
       {/* Header */}
       <div className="flex items-baseline justify-between gap-4">
