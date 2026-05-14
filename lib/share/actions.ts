@@ -2,7 +2,6 @@
 
 import { randomBytes } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 
 export type CreateShareTokenResult =
   | { ok: true; token: string; expires_at: string }
@@ -51,18 +50,9 @@ export type RevokeShareTokenResult =
   | { ok: false; error: string };
 
 /**
- * Delete a share token the caller owns. The 0001_init.sql migration does
- * not include a DELETE policy on share_tokens (the migration file is
- * out-of-scope per the redesign brief), so we:
- *   1. Pre-check ownership via the user-scoped client (RLS limits the
- *      SELECT to tokens whose parent quiz belongs to auth.uid()).
- *   2. If the SELECT returns the row, issue the DELETE via the admin
- *      client to bypass the missing policy.
- *
- * This authorizes the mutation server-side without needing a schema
- * change. If you'd rather add a proper share_tokens_self_delete policy,
- * a new migration (e.g. 0002_share_tokens_delete.sql) is the cleaner
- * long-term fix.
+ * Delete a share token the caller owns. Migration 0002 added the
+ * share_tokens_self_delete RLS policy, so the user-scoped client can
+ * issue the DELETE directly — Postgres enforces ownership.
  */
 export async function revokeShareToken(
   token: string,
@@ -80,23 +70,16 @@ export async function revokeShareToken(
     return { ok: false, error: "You must be signed in to revoke." };
   }
 
-  // Ownership pre-check via RLS-scoped client.
-  const { data: row, error: selectError } = await supabase
+  const { error, count } = await supabase
     .from("share_tokens")
-    .select("id")
-    .eq("token", token)
-    .maybeSingle();
-  if (selectError || !row) {
-    return { ok: false, error: "Token not found or already revoked." };
-  }
+    .delete({ count: "exact" })
+    .eq("token", token);
 
-  const admin = createAdminClient();
-  const { error: deleteError } = await admin
-    .from("share_tokens")
-    .delete()
-    .eq("id", row.id);
-  if (deleteError) {
-    return { ok: false, error: deleteError.message };
+  if (error) {
+    return { ok: false, error: error.message };
+  }
+  if (count === 0) {
+    return { ok: false, error: "Token not found or already revoked." };
   }
   return { ok: true };
 }

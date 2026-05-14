@@ -44,7 +44,9 @@ const expected = {
     profiles: 3,
     quizzes: 2,
     recommendations: 2,
-    share_tokens: 2,
+    // Migration 0002 added share_tokens_self_delete on top of the
+    // _self_select + _self_insert policies from 0001.
+    share_tokens: 3,
   },
 };
 

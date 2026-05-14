@@ -299,6 +299,25 @@
         ]
       },
       "status": "passed"
+    },
+    {
+      "id": "18",
+      "goal": "Migration 0002_share_tokens_delete.sql adds the missing share_tokens_self_delete RLS policy. revokeShareToken in lib/share/actions.ts drops the admin-client fallback and issues the DELETE through the user-scoped client; Postgres enforces ownership via RLS. verify-db.mjs bumps the expected share_tokens policy count from 2 to 3.",
+      "depends_on": ["17"],
+      "verification": {
+        "type": "command",
+        "command": "npm run verify:db && npm run lint && npm run build && npm test && npm run test:e2e",
+        "checklist": [
+          "supabase/migrations/0002_share_tokens_delete.sql present with the share_tokens_self_delete policy",
+          "npm run verify:db ends with 'share_tokens: 3 RLS policies in place' and 'All Goal 2 checks passed.'",
+          "lib/share/actions.ts no longer imports createAdminClient",
+          "revokeShareToken now issues a single DELETE through the user-scoped client (RLS-enforced)",
+          "45/45 vitest passing",
+          "14/14 e2e passing — share spec still covers the mint + visit + expired flow",
+          "npm run lint clean, npm run build clean"
+        ]
+      },
+      "status": "passed"
     }
   ],
   "definition_of_done": [
