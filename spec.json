@@ -318,6 +318,54 @@
         ]
       },
       "status": "passed"
+    },
+    {
+      "id": "19",
+      "goal": "Ralph Wiggum voice-cleanup loop: scripts/audit-voice.mjs mechanically scans every .tsx under app/ for v2 voice violations (em dashes in user copy, AUM AI Agentic tagline, literal `←`) after stripping JS comments. .claude/ralph/voice-cleanup.md is the autonomous-loop prompt the user pipes to /loop — Claude reads each flagged line, decides real-vs-false-positive, edits as needed, and re-iterates until exit 0. npm run audit:voice wires the script into the standard verification commands. AGENTS.md gains a Voice rules + Ralph loop section so any fresh Claude session knows the policy.",
+      "depends_on": ["18"],
+      "verification": {
+        "type": "command",
+        "command": "npm run audit:voice",
+        "checklist": [
+          "scripts/audit-voice.mjs exists and exits 0 on a clean codebase, 1 with violations listed file:line:rule",
+          ".claude/ralph/voice-cleanup.md exists with the loop prompt + invocation instructions",
+          "package.json exposes `audit:voice` script",
+          "AGENTS.md references the auditor + the Ralph loop file",
+          "`npm run audit:voice` reports `voice audit clean across N .tsx files`"
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "id": "20",
+      "goal": "Lighthouse audit captured for the demo: docs/LIGHTHOUSE.md records mobile scores (Perf 88, A11y 95, Best Practices 100, SEO 100), Core Web Vitals (LCP 3.0s, FCP 1.5s, TBT 50ms, CLS 0, Speed Index 6.5s, TTI 3.0s), the single flagged opportunity (Reduce unused JavaScript, 150ms), and notes about the LCP candidate on mobile.",
+      "depends_on": ["16", "17"],
+      "verification": {
+        "type": "manual",
+        "command": "test -f docs/LIGHTHOUSE.md",
+        "checklist": [
+          "docs/LIGHTHOUSE.md exists with all four category scores",
+          "Core Web Vitals captured (LCP, FCP, TBT, CLS, Speed Index, TTI)",
+          "Re-run command documented so the audit can be repeated"
+        ]
+      },
+      "status": "passed"
+    },
+    {
+      "id": "21",
+      "goal": "HANDOFF.md trimmed from 639 to ~430 lines: dropped the full commit history list, compressed the repo-layout tree to top-level only (linked to GitHub), trimmed the production deployment section to bare-essential steps, updated the spec progress table to 18 goals, added Lighthouse + Ralph loop references, and refreshed the resuming-on-a-fresh-session checklist.",
+      "depends_on": ["19", "20"],
+      "verification": {
+        "type": "manual",
+        "command": "wc -l docs/HANDOFF.md",
+        "checklist": [
+          "docs/HANDOFF.md under 450 lines",
+          "Spec progress table lists goals 1-18 with their status",
+          "References section points to docs/LIGHTHOUSE.md",
+          "Resuming-on-fresh-session checklist mentions the Ralph loop"
+        ]
+      },
+      "status": "passed"
     }
   ],
   "definition_of_done": [

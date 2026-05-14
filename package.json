@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "verify:db": "node scripts/verify-db.mjs",
+    "audit:voice": "node scripts/audit-voice.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
