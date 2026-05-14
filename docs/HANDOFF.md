@@ -15,7 +15,7 @@
   grade). Demo in Week 16.
 - **Stack:** Next.js 16 App Router (TypeScript), Tailwind v4, Supabase
   (Postgres + magic-link auth), Vercel.
-- **Status:** 18 spec goals shipped. 14 / 14 Playwright e2e and 45 / 45
+- **Status:** 22 spec goals shipped. 14 / 14 Playwright e2e and 45 / 45
   vitest passing. Lighthouse mobile: Perf 88, A11y 95, Best Practices
   100, SEO 100 (see `docs/LIGHTHOUSE.md`).
 - **GitHub:** [github.com/SDulguun/Vitapath](https://github.com/SDulguun/Vitapath)
@@ -33,12 +33,12 @@
 | **Project** | Project 3 — full-stack web app capstone, 35 % weight |
 | **Demo deadline** | Week 16 of Spring 2026 |
 | **Build method** | Spec-driven development (manual, no Ralph loop on the build itself) |
-| **Source-of-truth file** | `spec.json` at repo root — 18 numbered goals, all `status: "passed"` |
+| **Source-of-truth file** | `spec.json` at repo root — 22 numbered goals, all `status: "passed"` |
 
 ## 2. Current state
 
 - Branch `main`, all commits pushed to origin (public repo). Latest:
-  `138e05e goal 18: migration 0002 share_tokens self-delete policy`.
+  `253381b goal 22: LLM "Why this for me?" expander on each RecCard`.
 - See `git log --oneline` for the full history.
 
 ### Spec progress
@@ -63,6 +63,8 @@
 | 16 | Visual identity pass: OG image + landing hero + history sprig | ✅ |
 | 17 | UX polish: loading skeletons + RecCard hover lift | ✅ |
 | 18 | Migration 0002 share_tokens self-delete policy | ✅ |
+| 19-21 | Ralph voice-cleanup loop + Lighthouse audit + HANDOFF trim | ✅ |
+| 22 | LLM "Why this for me?" expander (Groq, server-grounded + cached) | ✅ |
 
 ## 3. Tech stack
 
