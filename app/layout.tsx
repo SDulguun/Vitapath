@@ -18,10 +18,27 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://vitamin-chi.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "VitaPath · Vitamins that fit your day",
   description:
     "A short quiz, an explainable health score, and supplement picks backed by real studies. VitaPath flags interactions before they happen.",
+  openGraph: {
+    title: "VitaPath · Vitamins that fit your day",
+    description:
+      "Explainable health score. Cited supplement picks. Real studies.",
+    type: "website",
+    siteName: "VitaPath",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VitaPath · Vitamins that fit your day",
+    description:
+      "Explainable health score. Cited supplement picks. Real studies.",
+  },
 };
 
 export default function RootLayout({

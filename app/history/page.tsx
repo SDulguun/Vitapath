@@ -9,6 +9,7 @@ import {
   Eyebrow,
   PageHeading,
   SectionHeading,
+  SprigIcon,
 } from "@/app/_components";
 import { createClient } from "@/lib/supabase/server";
 import { getHistoryForUser, type HistoryEntry } from "@/lib/history/data";
@@ -126,16 +127,26 @@ export default async function HistoryPage() {
         </PageHeading>
 
         {entries.length === 0 ? (
-          <Card className="mt-10" tone="sage">
-            <p className="text-sm text-ink-soft">
-              You haven&apos;t completed a quiz yet. Your score trend will
-              appear here once you do.
-            </p>
-            <div className="mt-5">
-              <Link href="/quiz/1" className={buttonClasses("primary", "md")}>
-                Take the quiz
-              </Link>
+          <Card
+            className="mt-10 flex flex-col items-center gap-5 py-10 text-center"
+            tone="sage"
+          >
+            <SprigIcon
+              className="size-12 text-sage opacity-90"
+              aria-hidden
+            />
+            <div>
+              <h3 className="font-serif text-2xl text-ink">
+                Your trend starts here.
+              </h3>
+              <p className="mt-2 max-w-sm text-sm text-ink-soft">
+                You haven&apos;t completed a quiz yet. Once you do, every
+                score and recommendation lands here.
+              </p>
             </div>
+            <Link href="/quiz/1" className={buttonClasses("primary", "md")}>
+              Take the quiz
+            </Link>
           </Card>
         ) : (
           <>

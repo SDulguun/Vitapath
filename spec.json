@@ -260,6 +260,27 @@
         ]
       },
       "status": "passed"
+    },
+    {
+      "id": "16",
+      "goal": "Visual identity pass: opengraph-image.tsx generates a 1200x630 sage social card; explicit openGraph + twitter metadata in app/layout.tsx; landing hero gains a portrait Unsplash photo on the right (next/image with priority, hidden on mobile, sage-soft frame); /history empty state adopts a SprigIcon + serif heading + body; each RecCard prefixes the supplement name with a sage SprigIcon for editorial rhythm. No engine data or test contracts touched.",
+      "depends_on": ["15"],
+      "verification": {
+        "type": "command",
+        "command": "npm run lint && npm run build && npm test && npm run test:e2e",
+        "checklist": [
+          "app/opengraph-image.tsx exists and renders 1200x630 with VitaPath brand mark + headline",
+          "/public/hero/landing-hero.jpg present (Unsplash, free under Unsplash License)",
+          "app/layout.tsx exports metadataBase + openGraph + twitter metadata",
+          "Landing hero shows the photo on md+ viewports, hidden on sm",
+          "History empty state renders SprigIcon + 'Your trend starts here.' heading",
+          "RecCard header shows SprigIcon left of supplement name",
+          "45/45 vitest passing",
+          "14/14 e2e passing — no test contract drift",
+          "npm run lint clean, npm run build clean"
+        ]
+      },
+      "status": "passed"
     }
   ],
   "definition_of_done": [

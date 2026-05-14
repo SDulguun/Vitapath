@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   BookmarkIcon,
@@ -61,31 +62,45 @@ export default function Home() {
     <main>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <Container as="div" className="relative pt-24 pb-20 md:pt-32 md:pb-28">
+        <Container as="div" className="relative pt-20 pb-16 md:pt-28 md:pb-24">
           <HeroLeaf />
-          <div className="vp-fade-up relative max-w-2xl">
-            <Eyebrow>VitaPath</Eyebrow>
-            <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              Vitamins that <span className="italic">fit</span> your day.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-ink-soft sm:text-xl">
-              A short quiz, an explainable health score, and supplement picks
-              backed by real studies. We flag interactions before they
-              happen.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quiz/1"
-                className={buttonClasses("primary", "lg")}
-              >
-                Start the quiz
-              </Link>
-              <Link
-                href="#how"
-                className={buttonClasses("secondary", "lg")}
-              >
-                How it works
-              </Link>
+          <div className="grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
+            <div className="vp-fade-up relative">
+              <Eyebrow>VitaPath</Eyebrow>
+              <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-ink sm:text-6xl md:text-7xl">
+                Vitamins that <span className="italic">fit</span> your day.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg text-ink-soft sm:text-xl">
+                A short quiz, an explainable health score, and supplement picks
+                backed by real studies. We flag interactions before they
+                happen.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/quiz/1"
+                  className={buttonClasses("primary", "lg")}
+                >
+                  Start the quiz
+                </Link>
+                <Link
+                  href="#how"
+                  className={buttonClasses("secondary", "lg")}
+                >
+                  How it works
+                </Link>
+              </div>
+            </div>
+            <div className="relative hidden md:block">
+              <div className="absolute -inset-3 -z-10 rounded-3xl bg-surface-sage/40" />
+              <Image
+                src="/hero/landing-hero.jpg"
+                alt="Fresh leafy herbs arranged in soft natural light"
+                width={800}
+                height={1200}
+                priority
+                sizes="(min-width: 1024px) 460px, 40vw"
+                className="aspect-[3/4] w-full rounded-2xl object-cover shadow-md"
+              />
             </div>
           </div>
         </Container>

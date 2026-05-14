@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, EvidenceList } from "@/app/_components";
+import { Button, EvidenceList, SprigIcon } from "@/app/_components";
 import type { Brand } from "@/lib/engine/schemas";
 import type { ResultsRecommendation } from "@/lib/results/data";
 
@@ -62,9 +62,15 @@ export function RecCard({
     >
       {/* Header */}
       <div className="flex items-baseline justify-between gap-4">
-        <h3 className="font-serif text-2xl leading-tight text-ink">
-          {rec.name}
-        </h3>
+        <div className="flex items-baseline gap-2.5">
+          <SprigIcon
+            aria-hidden
+            className="size-4 shrink-0 translate-y-1 text-sage/70"
+          />
+          <h3 className="font-serif text-2xl leading-tight text-ink">
+            {rec.name}
+          </h3>
+        </div>
         <p className="shrink-0 text-sm text-ink-soft">{rec.dose}</p>
       </div>
 
